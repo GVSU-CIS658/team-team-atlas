@@ -20,3 +20,42 @@ Your **Term Project** is an essential part of the course. Please review the inst
 - Test your project regularly.
 
 Best of luck! 🚀
+
+## **Project Setup**
+1. Clone the repo
+2. Install dependencies:
+```
+cd campusfit && npm install
+cd ../server && npm install
+```
+3. Set up your `.env` file:
+```
+// make sure you are in the /server folder
+cp .env.example .env
+```
+4. Fill in the `.env` values:
+ - The `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_KEY` values are in the shared supabase project settings
+ - Generate your own values for `JWT_ACCESS_SECRET` and `JWT_REFRESH_SECRET` using the command:
+ ```
+ openssl rand -hex 32
+ ```
+5. Start both servers:
+```
+# Terminal 1 for backend
+cd server
+npm run dev
+
+# Terminal 2 for frontend
+cd campus-fit
+npm run dev
+```
+6. Open `http://localhost:5173`. API calls are already setup with a proxy
+## **Backend Deployment to Production**
+1. (For the first time only) Install Railway CLI:
+```
+npm install -g @railway/cli
+```
+2. Make sure your terminal is in the `/server` folder and run:
+```
+railway up
+```
