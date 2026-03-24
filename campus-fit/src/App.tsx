@@ -1,8 +1,11 @@
+import DasboardPage from './features/dashboard/page/DashbaordPage'
+import Header from './components/layout/Header'
 
 function App() {
   return (
     <div>
-      <h1>CampusFit</h1>
+      <Header />
+      <DasboardPage />
     </div>
   )
 }
