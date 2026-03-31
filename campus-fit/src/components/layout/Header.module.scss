@@ -1,0 +1,23 @@
+@import '../../styles/variables.scss';
+
+.header {
+    position: fixed;
+    inset: 0;
+    height: 65px;
+    border-bottom: 1px solid $border-color;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+
+    .logoContainer {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        svg {
+            width: 4rem;
+        }
+    }
+}
