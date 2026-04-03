@@ -1,0 +1,95 @@
+/* LogActivity.module.scss */
+.logCard {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 16px;
+  padding: 24px;
+  margin-top: $spacing-6;
+}
+
+.header {
+  margin-bottom: 24px;
+
+  h3 {
+    margin: 0;
+    font-size: $font-md;
+    font-weight: $weight-bold;
+  }
+
+  p {
+    margin: 4px 0 0 0;
+    color: $text-secondary;
+    font-size: $font-sm;
+  }
+}
+
+.form {
+  display: grid;
+  grid-template-columns: 1fr 1fr; // Two columns on desktop
+  gap: 20px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr; // One column on mobile
+  }
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #111;
+  }
+
+  input,
+  .select {
+    padding: 12px 16px;
+    background-color: #f3f4f6; // Light gray background from screenshot
+    border: 1px solid transparent;
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+
+    &:focus {
+      border-color: #4f46e5;
+      background-color: #fff;
+    }
+
+    &::placeholder {
+      color: #9ca3af;
+    }
+  }
+}
+
+.submitBtn {
+  grid-column: span 1; // button takes one column
+  width: fit-content;
+  background: linear-gradient(
+    135deg,
+    #2563eb 0%,
+    #9333ea 100%
+  ); // Purple/Blue gradient
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%; // Full width button on mobile
+    justify-content: center;
+  }
+}
