@@ -1,0 +1,29 @@
+.layoutWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+}
+
+.contentSection {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.pageBody {
+  flex: 1;
+  padding: 2rem;
+  background-color: $body-bg;
+  overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+  .layoutWrapper {
+    flex-direction: column;
+  }
+
+  .pageBody {
+    padding: 0 1rem;
+  }
+}

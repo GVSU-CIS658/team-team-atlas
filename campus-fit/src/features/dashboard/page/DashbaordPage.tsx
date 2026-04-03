@@ -1,11 +1,10 @@
-import styles from './Dasboard.module.scss'
-
 const DashboardPage = () => {
-    return (
-        <div className={styles.dasboardPage}>
-            <h1>Welcome back!</h1>
-        </div>
-    )
-}
+  return (
+    <div className="pageHeader">
+      <h1>Welcome back!</h1>
+      <p>Here's your fitness overview for today</p>
+    </div>
+  );
+};
 
-export default DashboardPage
+export default DashboardPage;
