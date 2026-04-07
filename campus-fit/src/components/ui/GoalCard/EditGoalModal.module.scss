@@ -1,0 +1,96 @@
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100;
+  backdrop-filter: blur(2px);
+}
+
+.modalContent {
+  background: #ffffff;
+  width: 90%;
+  max-width: 450px;
+  border-radius: 16px;
+  padding: 28px;
+  position: relative;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.closeButton {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #999;
+  &:hover {
+    color: #333;
+  }
+}
+
+.header {
+  margin-bottom: 20px;
+  h2 {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+  p {
+    margin: 4px 0 0;
+    color: #777;
+    font-size: 0.95rem;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #333;
+  }
+  input,
+  textarea {
+    padding: 12px;
+    border: 1px solid #f0f1f3;
+    background: #f8f9fb;
+    border-radius: 10px;
+    font-size: 1rem;
+    &:focus {
+      outline: none;
+      background: #fff;
+      border-color: #7c3aed;
+    }
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.cancelBtn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: white;
+  font-weight: 600;
+  cursor: pointer;
+  &:hover {
+    background: #f8fafc;
+  }
+}
