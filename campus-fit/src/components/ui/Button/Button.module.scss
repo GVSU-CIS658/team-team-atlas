@@ -4,7 +4,6 @@
   justify-content: center;
   gap: 8px;
 
-  /* Specs from your screenshot */
   height: 36px;
   padding: 0 16px;
   border-radius: 8px;
@@ -34,4 +33,12 @@
 .icon {
   display: flex;
   align-items: center;
+}
+
+@media screen and (max-width: 768px) {
+  .btn {
+    height: 32px;
+    padding: 0 12px;
+    font-size: $font-xs;
+  }
 }

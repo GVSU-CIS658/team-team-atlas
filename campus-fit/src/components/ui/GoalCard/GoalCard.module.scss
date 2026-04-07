@@ -3,6 +3,9 @@
   border: 1px solid #eee;
   border-radius: 16px;
   padding: 24px;
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
 }
 
 .header {
@@ -15,22 +18,23 @@
     font-size: $font-md;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
   }
 }
 
 .tag {
-  background: #f3f4f6;
+  background: #030213;
   font-size: 11px;
   padding: 2px 8px;
   border-radius: 6px;
   font-weight: 600;
+  color: #fff;
 }
 
 .description {
   color: #6b7280;
   font-size: $font-sm;
-  margin: 4px 0 0 0;
+  margin: 10px 0 0 0;
 }
 
 .progressInfo {
@@ -83,7 +87,7 @@
     &:hover {
       color: #111;
     }
-    &.delete:hover {
+    &.delete {
       color: #ef4444;
     }
   }

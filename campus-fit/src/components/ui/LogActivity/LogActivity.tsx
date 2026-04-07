@@ -1,4 +1,3 @@
-// src/features/goals/components/LogActivity/LogActivity.tsx
 import { Plus } from "lucide-react";
 import styles from "./LogActivity.module.scss";
 

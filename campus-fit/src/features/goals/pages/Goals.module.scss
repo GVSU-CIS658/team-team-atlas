@@ -24,8 +24,7 @@
   margin-bottom: $spacing-6;
 
   @media (max-width: 768px) {
-    flex-direction: column;
-    gap: $spacing-3;
+    align-items: center;
   }
 }
 
