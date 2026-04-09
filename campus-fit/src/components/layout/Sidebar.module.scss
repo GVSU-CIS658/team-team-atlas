@@ -6,13 +6,11 @@
   padding: 16px;
 
   height: fit-content;
-  margin: 1.5rem;
-  border-radius: 16px;
-  border: 1px solid #eee;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-radius: $radius-lg;
+  border: 1px solid $border-color;
 
   position: sticky;
-  top: 2.5rem;
+  top: 0;
   z-index: 90;
 }
 
