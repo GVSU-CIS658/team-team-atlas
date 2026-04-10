@@ -4,7 +4,8 @@
 **Base URL:** `https://campusfit-api.up.railway.app/api/v1/`  
 **Local Dev Base URL:** `http://localhost:3001/api/v1`  
 
-**Auth:**  
+**Auth:**
+
 - Short-lived **JWT access token** via `Authorization: Bearer <token>` header  
 - Long-lived **refresh token** stored in an **HttpOnly, Secure cookie** (rotation supported)
 
@@ -46,6 +47,7 @@
 ### Pagination
 
 Endpoints that return collections support:
+
 - `page` (default `1`)
 - `limit` (default `20`, max varies by endpoint)
 
@@ -61,6 +63,7 @@ CampusFit will use each user's local time for “daily/weekly/monthly” goal wi
 ### Aggregation Rule for Goals & Challenges
 
 For all activity types (steps, workouts, distance, calories):
+
 - Multiple logs per day are allowed
 - Totals are computed as **sum** of logs across the chosen window
 
@@ -68,15 +71,17 @@ For all activity types (steps, workouts, distance, calories):
 
 ## Error Codes
 
-| Status | Code | Description |
-|--------|------|-------------|
-| 400 | `VALIDATION_ERROR` | Malformed or missing request fields |
-| 401 | `UNAUTHORIZED` | Missing/invalid/expired access token |
-| 403 | `FORBIDDEN` | Authenticated but not allowed |
-| 404 | `NOT_FOUND` | Resource does not exist |
-| 409 | `CONFLICT` | Duplicate or conflicting state |
-| 429 | `RATE_LIMITED` | Too many requests |
-| 500 | `INTERNAL_ERROR` | Unhandled server error |
+
+| Status | Code               | Description                          |
+| ------ | ------------------ | ------------------------------------ |
+| 400    | `VALIDATION_ERROR` | Malformed or missing request fields  |
+| 401    | `UNAUTHORIZED`     | Missing/invalid/expired access token |
+| 403    | `FORBIDDEN`        | Authenticated but not allowed        |
+| 404    | `NOT_FOUND`        | Resource does not exist              |
+| 409    | `CONFLICT`         | Duplicate or conflicting state       |
+| 429    | `RATE_LIMITED`     | Too many requests                    |
+| 500    | `INTERNAL_ERROR`   | Unhandled server error               |
+
 
 ---
 
@@ -88,11 +93,14 @@ For all activity types (steps, workouts, distance, calories):
 - **Refresh token:** long-lived cookie, rotated on refresh
 
 #### Cookies
+
 - Refresh cookie name: `campusfit_rt`
 - Cookie flags in production: `HttpOnly; Secure; SameSite=None; Path=/api/v1/auth/refresh`
 
 ### Frontend fetch requirements (cross-origin)
+
 All calls that rely on refresh cookie must include:
+
 - `credentials: "include"`
 
 ---
@@ -102,6 +110,7 @@ All calls that rely on refresh cookie must include:
 Create a new user account. **No auth required.**
 
 **Request**
+
 ```json
 {
   "username": "jdoe",
@@ -111,6 +120,7 @@ Create a new user account. **No auth required.**
 ```
 
 **Response `201`**
+
 ```json
 {
   "success": true,
@@ -130,6 +140,7 @@ Create a new user account. **No auth required.**
 Authenticates the user and sets the refresh cookie. Returns an access token. **No auth required.**
 
 **Request**
+
 ```json
 {
   "email": "jdoe@university.edu",
@@ -138,6 +149,7 @@ Authenticates the user and sets the refresh cookie. Returns an access token. **N
 ```
 
 **Response `200`**
+
 ```json
 {
   "success": true,
@@ -149,6 +161,7 @@ Authenticates the user and sets the refresh cookie. Returns an access token. **N
 ```
 
 **Set-Cookie (refresh token)**
+
 - `campusfit_rt=<token>; HttpOnly; Secure; SameSite=None; Path=/api/v1/auth/refresh`
 
 ---
@@ -161,6 +174,7 @@ Rotates refresh token and returns a new access token.
 **Request body:** none
 
 **Response `200`**
+
 ```json
 {
   "success": true,
@@ -182,6 +196,7 @@ Clears refresh cookie (and revokes the token server-side if tracked). **Auth opt
 **Request body:** none
 
 **Response `200`**
+
 ```json
 {
   "success": true,
@@ -198,6 +213,7 @@ Clears refresh cookie (and revokes the token server-side if tracked). **Auth opt
 Get the current user's profile. **Auth required.**
 
 **Response `200`**
+
 ```json
 {
   "success": true,
@@ -217,6 +233,7 @@ Get the current user's profile. **Auth required.**
 Update the current user's profile. **Auth required.** All fields optional.
 
 **Request**
+
 ```json
 {
   "username": "johndoe"
@@ -224,6 +241,7 @@ Update the current user's profile. **Auth required.** All fields optional.
 ```
 
 **Response `200`**
+
 ```json
 {
   "success": true,
@@ -243,6 +261,7 @@ Update the current user's profile. **Auth required.** All fields optional.
 Aggregate dashboard statistics. **Auth required.**
 
 **Response `200`**
+
 ```json
 {
   "success": true,
@@ -268,16 +287,19 @@ All goal endpoints require authentication. Users can only access their own goals
 
 List the current user's goals.
 
-| Query Param | Type | Default | Description |
-|-------------|------|---------|-------------|
-| `page` | integer | `1` | Page number |
-| `limit` | integer | `20` | Items per page (max 100) |
-| `status` | string | — | `active`, `completed`, `all` |
-| `frequency` | string | — | `daily`, `weekly`, `monthly` |
-| `sort` | string | `createdAt` | `createdAt`, `title`, `targetValue` |
-| `order` | string | `desc` | `asc`, `desc` |
+
+| Query Param | Type    | Default     | Description                         |
+| ----------- | ------- | ----------- | ----------------------------------- |
+| `page`      | integer | `1`         | Page number                         |
+| `limit`     | integer | `20`        | Items per page (max 100)            |
+| `status`    | string  | —           | `active`, `completed`, `all`        |
+| `frequency` | string  | —           | `daily`, `weekly`, `monthly`        |
+| `sort`      | string  | `createdAt` | `createdAt`, `title`, `targetValue` |
+| `order`     | string  | `desc`      | `asc`, `desc`                       |
+
 
 **Response `200`**
+
 ```json
 {
   "success": true,
@@ -305,6 +327,7 @@ List the current user's goals.
 Create a new goal.
 
 **Request**
+
 ```json
 {
   "title": "Daily Steps",
@@ -316,6 +339,7 @@ Create a new goal.
 ```
 
 **Response `201`**
+
 ```json
 {
   "success": true,
@@ -348,6 +372,7 @@ Get a specific goal. **Owner only.**
 Update a goal. **Owner only.** All fields optional.
 
 **Request**
+
 ```json
 {
   "title": "Daily Steps (Updated)",
@@ -364,6 +389,7 @@ Update a goal. **Owner only.** All fields optional.
 Delete a goal and all its associated activities. **Owner only.**
 
 **Response `200`**
+
 ```json
 {
   "success": true,
@@ -378,6 +404,7 @@ Delete a goal and all its associated activities. **Owner only.**
 Activities are scoped to a goal for creation and listing. Deletion uses the activity ID directly.
 
 ### Activity Types & Summation
+
 - Multiple logs per day are allowed across all activity types.
 - Frontend will compute totals by summing `value` across the logs.
 
@@ -385,14 +412,17 @@ Activities are scoped to a goal for creation and listing. Deletion uses the acti
 
 List activity entries for a goal. **Owner only.**
 
-| Query Param | Type | Default | Description |
-|-------------|------|---------|-------------|
-| `page` | integer | `1` | Page number |
-| `limit` | integer | `20` | Items per page (max 100) |
-| `startDate` | `YYYY-MM-DD` | — | Activities on/after |
-| `endDate` | `YYYY-MM-DD` | — | Activities on/before |
+
+| Query Param | Type         | Default | Description              |
+| ----------- | ------------ | ------- | ------------------------ |
+| `page`      | integer      | `1`     | Page number              |
+| `limit`     | integer      | `20`    | Items per page (max 100) |
+| `startDate` | `YYYY-MM-DD` | —       | Activities on/after      |
+| `endDate`   | `YYYY-MM-DD` | —       | Activities on/before     |
+
 
 **Response `200`**
+
 ```json
 {
   "success": true,
@@ -418,9 +448,11 @@ List activity entries for a goal. **Owner only.**
 Log an activity entry for a goal. **Owner only.**
 
 **Optional Idempotency**
+
 - Frontend can send an `Idempotency-Key` header to prevent accidental duplicates on retries.
 
 **Request**
+
 ```json
 {
   "value": 2500,
@@ -430,6 +462,7 @@ Log an activity entry for a goal. **Owner only.**
 ```
 
 **Response `201`**
+
 ```json
 {
   "success": true,
@@ -452,6 +485,7 @@ Log an activity entry for a goal. **Owner only.**
 Delete an activity entry. **Owner only.**
 
 **Response `200`**
+
 ```json
 {
   "success": true,
@@ -469,17 +503,20 @@ Challenge listings are visible to all authenticated users. Joining/leaving/loggi
 
 List all challenges.
 
-| Query Param | Type | Default | Description |
-|-------------|------|---------|-------------|
-| `page` | integer | `1` | Page number |
-| `limit` | integer | `20` | Items per page (max 50) |
-| `frequency` | string | — | `daily`, `weekly`, `monthly` |
-| `status` | string | `active` | `active`, `upcoming`, `ended`, `all` |
-| `joined` | boolean | — | If `true`, only challenges the current user joined |
-| `sort` | string | `startDate` | `startDate`, `participantCount`, `createdAt` |
-| `order` | string | `desc` | `asc`, `desc` |
+
+| Query Param | Type    | Default     | Description                                        |
+| ----------- | ------- | ----------- | -------------------------------------------------- |
+| `page`      | integer | `1`         | Page number                                        |
+| `limit`     | integer | `20`        | Items per page (max 50)                            |
+| `frequency` | string  | —           | `daily`, `weekly`, `monthly`                       |
+| `status`    | string  | `active`    | `active`, `upcoming`, `ended`, `all`               |
+| `joined`    | boolean | —           | If `true`, only challenges the current user joined |
+| `sort`      | string  | `startDate` | `startDate`, `participantCount`, `createdAt`       |
+| `order`     | string  | `desc`      | `asc`, `desc`                                      |
+
 
 **Response `200`**
+
 ```json
 {
   "success": true,
@@ -489,9 +526,7 @@ List all challenges.
       "title": "February Step Challenge",
       "description": "Most steps in February wins",
       "frequency": "monthly",
-      "metric": "steps",
       "unit": "steps",
-      "aggregation": "sum",
       "startDate": "2026-02-01T00:00:00Z",
       "endDate": "2026-02-28T23:59:59Z",
       "participantCount": 134,
@@ -510,14 +545,13 @@ List all challenges.
 Create a new challenge.
 
 **Request**
+
 ```json
 {
   "title": "February Step Challenge",
   "description": "Most steps in February wins",
   "frequency": "monthly",
-  "metric": "steps",
   "unit": "steps",
-  "aggregation": "sum",
   "startDate": "2026-02-01T00:00:00Z",
   "endDate": "2026-02-28T23:59:59Z"
 }
@@ -540,6 +574,7 @@ Get details for a challenge.
 Join a challenge. No request body — user comes from JWT.
 
 **Response `201`**
+
 ```json
 {
   "success": true,
@@ -561,6 +596,7 @@ Join a challenge. No request body — user comes from JWT.
 Leave a challenge.
 
 **Response `200`**
+
 ```json
 {
   "success": true,
@@ -576,9 +612,11 @@ Log progress toward a joined challenge. **Participant only.**
 Multiple entries per day allowed; totals are sum.
 
 **Optional Idempotency**
+
 - Frontend can send `Idempotency-Key` header.
 
 **Request**
+
 ```json
 {
   "value": 3200,
@@ -587,6 +625,7 @@ Multiple entries per day allowed; totals are sum.
 ```
 
 **Response `201`**
+
 ```json
 {
   "success": true,
@@ -606,12 +645,15 @@ Multiple entries per day allowed; totals are sum.
 
 Ranked leaderboard for a challenge (by `totalProgress` desc).
 
-| Query Param | Type | Default | Description |
-|-------------|------|---------|-------------|
-| `page` | integer | `1` | Page number |
-| `limit` | integer | `20` | Items per page (max 100) |
+
+| Query Param | Type    | Default | Description              |
+| ----------- | ------- | ------- | ------------------------ |
+| `page`      | integer | `1`     | Page number              |
+| `limit`     | integer | `20`    | Items per page (max 100) |
+
 
 **Response `200`**
+
 ```json
 {
   "success": true,
@@ -643,14 +685,17 @@ X-RateLimit-Reset: 1709042400
 - `X-RateLimit-Reset` is epoch seconds.
 - 429 responses may include `Retry-After` header.
 
-| Tier | Endpoints | Window | Max Requests |
-|------|-----------|--------|--------------|
-| Strict | `/auth/login`, `/auth/register` | 15 min | 10 |
-| Write | All POST, PATCH, DELETE | 1 min | 30 |
-| Read | All GET | 1 min | 100 |
-| Leaderboard | `/challenges/:id/leaderboard` | 1 min | 30 |
 
-**`429` Response**
+| Tier        | Endpoints                       | Window | Max Requests |
+| ----------- | ------------------------------- | ------ | ------------ |
+| Strict      | `/auth/login`, `/auth/register` | 15 min | 10           |
+| Write       | All POST, PATCH, DELETE         | 1 min  | 30           |
+| Read        | All GET                         | 1 min  | 100          |
+| Leaderboard | `/challenges/:id/leaderboard`   | 1 min  | 30           |
+
+
+`**429` Response**
+
 ```json
 {
   "success": false,
@@ -661,3 +706,4 @@ X-RateLimit-Reset: 1709042400
   }
 }
 ```
+
