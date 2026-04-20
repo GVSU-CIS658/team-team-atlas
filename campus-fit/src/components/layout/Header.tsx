@@ -56,7 +56,7 @@ const Header = ({ onMenuClick, isMenuOpen }: HeaderProps) => {
               <span className={styles.userName}>{user?.username ?? ""}</span>
               <span className={styles.userSub}>GVSU</span>
             </div>
-            <Avatar src="/Profile.png" alt={user?.username ?? ""} size="medium" />
+            <Avatar src={user?.avatarUrl} alt={user?.username ?? ""} size="medium" />
           </button>
 
           {dropdownOpen && (

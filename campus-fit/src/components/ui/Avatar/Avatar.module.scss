@@ -4,31 +4,45 @@
   justify-content: center;
   overflow: hidden;
   border-radius: 50%;
-  background-color: #f3f4f6;
+  background-color: #e0e7ff;
   border: 1px solid #e5e7eb;
   flex-shrink: 0;
+
+  img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+  }
 }
 
-.avatar img {
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
+.initials {
+  font-weight: 600;
+  color: #4361ee;
+  text-transform: uppercase;
+  line-height: 1;
 }
 
 .small {
   width: 32px;
   height: 32px;
+  font-size: 0.65rem;
+
+  .initials { font-size: 0.65rem; }
 }
 
 .medium {
   width: 48px;
   height: 48px;
+
+  .initials { font-size: 0.85rem; }
 }
 
 .large {
   width: 64px;
   height: 64px;
+
+  .initials { font-size: 1.1rem; }
 }
 
 .avatarFallback {

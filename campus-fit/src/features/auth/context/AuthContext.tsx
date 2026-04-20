@@ -5,6 +5,7 @@ interface User {
     id: string;
     email: string;
     username: string;
+    avatarUrl: string | null;
 }
 
 interface AuthContextValue {
@@ -12,13 +13,17 @@ interface AuthContextValue {
     isAuthenticated: boolean;
     isLoading: boolean;
     login: (email: string, password: string) => Promise<void>;
-    register: (username: string, email: string, password: string, university?: string) => Promise<void>;
+    register: (username: string, email: string, password: string, university?: string, avatarDataUrl?: string | null) => Promise<void>;
     logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-function decodeToken(token: string): User | null {
+function avatarKey(email: string) {
+    return `campusfit_avatar_${email.toLowerCase()}`;
+}
+
+function decodeToken(token: string): Omit<User, 'avatarUrl'> | null {
     try {
         const payload = JSON.parse(atob(token.split('.')[1]));
         return { id: payload.id, email: payload.email, username: payload.username };
@@ -34,7 +39,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     useEffect(() => {
         const token = localStorage.getItem('accessToken');
         if (token) {
-            setUser(decodeToken(token));
+            const decoded = decodeToken(token);
+            if (decoded) {
+                const avatarUrl = localStorage.getItem(avatarKey(decoded.email));
+                setUser({ ...decoded, avatarUrl });
+            }
         }
         setIsLoading(false);
     }, []);
@@ -45,11 +54,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             { email, password },
         );
         localStorage.setItem('accessToken', data.accessToken);
-        setUser(decodeToken(data.accessToken));
+        const decoded = decodeToken(data.accessToken);
+        if (decoded) {
+            const avatarUrl = localStorage.getItem(avatarKey(decoded.email));
+            setUser({ ...decoded, avatarUrl });
+        }
     };
 
-    const register = async (username: string, email: string, password: string, university?: string) => {
+    const register = async (
+        username: string,
+        email: string,
+        password: string,
+        university?: string,
+        avatarDataUrl?: string | null,
+    ) => {
         await api.post('/auth/register', { username, email, password, university });
+        if (avatarDataUrl) {
+            localStorage.setItem(avatarKey(email), avatarDataUrl);
+        }
     };
 
     const logout = async () => {

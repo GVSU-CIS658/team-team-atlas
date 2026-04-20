@@ -23,7 +23,7 @@ const Sidebar = ({
   return (
     <aside className={`${styles.sidebar} ${isOpen ? styles.open : ""}`}>
       <div className={styles.mobileProfile}>
-        <Avatar src="/Profile.png" alt={user?.username ?? ''} size="large" />
+        <Avatar src={user?.avatarUrl} alt={user?.username ?? ''} size="large" />
         <div className={styles.mobileInfo}>
           <span className={styles.userName}>{user?.username ?? ''}</span>
           <span className={styles.userSub}>GVSU Student</span>

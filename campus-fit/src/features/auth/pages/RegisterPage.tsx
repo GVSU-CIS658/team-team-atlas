@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { User, Building2, Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { User, Building2, Mail, Lock, Eye, EyeOff, Camera } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import styles from './Auth.module.scss';
 
 export default function RegisterPage() {
+    const [avatar, setAvatar] = useState<string | null>(null);
     const [fullName, setFullName] = useState('');
     const [university, setUniversity] = useState('');
     const [email, setEmail] = useState('');
@@ -14,8 +15,17 @@ export default function RegisterPage() {
     const [showConfirm, setShowConfirm] = useState(false);
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const fileInputRef = useRef<HTMLInputElement>(null);
     const { register } = useAuth();
     const navigate = useNavigate();
+
+    const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => setAvatar(reader.result as string);
+        reader.readAsDataURL(file);
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -28,7 +38,7 @@ export default function RegisterPage() {
 
         setIsLoading(true);
         try {
-            await register(fullName, email, password, university);
+            await register(fullName, email, password, university, avatar);
             navigate('/login');
         } catch (err: unknown) {
             setError(err instanceof Error ? err.message : 'Registration failed. Please try again.');
@@ -49,6 +59,35 @@ export default function RegisterPage() {
                     <div className={styles.cardHeader}>
                         <h2>Create Account</h2>
                         <p>Sign up to start tracking your fitness</p>
+                    </div>
+
+                    {/* ── Avatar upload ── */}
+                    <div className={styles.avatarUpload}>
+                        <button
+                            type="button"
+                            className={styles.avatarBtn}
+                            onClick={() => fileInputRef.current?.click()}
+                            aria-label="Upload profile picture"
+                        >
+                            {avatar ? (
+                                <img src={avatar} alt="Profile preview" className={styles.avatarPreview} />
+                            ) : (
+                                <span className={styles.avatarPlaceholder}>
+                                    <User size={32} strokeWidth={1.5} />
+                                </span>
+                            )}
+                            <span className={styles.cameraOverlay}>
+                                <Camera size={14} />
+                            </span>
+                        </button>
+                        <span className={styles.avatarHint}>Profile photo</span>
+                        <input
+                            ref={fileInputRef}
+                            type="file"
+                            accept="image/*"
+                            onChange={handleAvatarChange}
+                            style={{ display: 'none' }}
+                        />
                     </div>
 
                     <form onSubmit={handleSubmit}>

@@ -1,0 +1,251 @@
+.page {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-4;
+    padding: $spacing-4;
+    max-width: 1100px;
+}
+
+.section {
+    background: white;
+    border: 1px solid $border-color;
+    border-radius: $radius-lg;
+    padding: $spacing-4;
+}
+
+.sectionHeader {
+    margin-bottom: $spacing-4;
+
+    h2 {
+        font-size: $font-lg;
+        font-weight: $weight-bold;
+        color: $text-primary;
+        margin: 0 0 4px;
+    }
+
+    p {
+        font-size: $font-sm;
+        color: $text-secondary;
+        margin: 0;
+    }
+}
+
+/* ── Podium ─────────────────────────────────────────── */
+.podium {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: $spacing-3;
+
+    @media (max-width: 600px) {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+.podiumCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: $spacing-4 $spacing-5;
+    border-radius: $radius-lg;
+    border: 1px solid $border-color;
+    background: white;
+    min-width: 200px;
+    text-align: center;
+
+    &.podium1 {
+        border-color: #facc15;
+        background: #fefce8;
+        padding-top: $spacing-3;
+    }
+
+    &.podium3 {
+        border-color: #fed7aa;
+        background: #fff7ed;
+    }
+}
+
+.crownIcon {
+    color: #d97706;
+}
+
+/* Avatar with rank badge */
+.podiumAvatarWrap {
+    position: relative;
+    display: inline-flex;
+
+    &.podium1 .avatar {
+        border: 3px solid #facc15;
+    }
+}
+
+.podiumBadge {
+    position: absolute;
+    bottom: 2px;
+    right: -4px;
+    width: 22px;
+    height: 22px;
+    border-radius: $radius-full;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: $weight-bold;
+    color: white;
+    border: 2px solid white;
+
+    &.podium1 { background: #d97706; }
+    &.podium2 { background: #6b7280; }
+    &.podium3 { background: #f97316; }
+}
+
+.podiumName {
+    font-size: $font-base;
+    font-weight: $weight-semibold;
+    color: $text-primary;
+}
+
+.podiumScore {
+    font-size: $font-xl;
+    font-weight: $weight-bold;
+    color: $text-primary;
+
+    &.goldScore {
+        color: #d97706;
+    }
+}
+
+.podiumUnit {
+    font-size: $font-sm;
+    color: $text-secondary;
+    margin-top: -6px;
+}
+
+/* ── Avatar circle ──────────────────────────────────── */
+.avatar {
+    border-radius: $radius-full;
+    background: #e5e7eb;
+    color: $text-secondary;
+    font-weight: $weight-semibold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.avatar_lg {
+    width: 80px;
+    height: 80px;
+    font-size: $font-lg;
+}
+
+.avatar_md {
+    width: 48px;
+    height: 48px;
+    font-size: $font-base;
+}
+
+.avatar_sm {
+    width: 44px;
+    height: 44px;
+    font-size: $font-sm;
+}
+
+/* ── Rank list ──────────────────────────────────────── */
+.rankList {
+    display: flex;
+    flex-direction: column;
+}
+
+.rankRow {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    padding: $spacing-2 $spacing-2;
+    border-bottom: 1px solid $border-color;
+    border-radius: $radius-md;
+
+    &:last-child {
+        border-bottom: none;
+    }
+}
+
+.myRow {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe !important;
+    border-radius: $radius-md;
+    margin: 4px 0;
+}
+
+.rankBadge {
+    width: 40px;
+    height: 40px;
+    border-radius: $radius-sm;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: $font-sm;
+    font-weight: $weight-bold;
+
+    &.gold   { background: #fef9c3; color: #d97706; }
+    &.silver { background: #f3f4f6; color: #6b7280; }
+    &.bronze { background: #fff7ed; color: #f97316; }
+    &.plain  { background: #f9fafb; border: 1px solid $border-color; color: $text-secondary; }
+}
+
+.rankInfo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.rankName {
+    font-size: $font-base;
+    font-weight: $weight-semibold;
+    color: $text-primary;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.youBadge {
+    font-size: $font-xs;
+    font-weight: $weight-medium;
+    color: #3b82f6;
+    background: #dbeafe;
+    padding: 2px 8px;
+    border-radius: $radius-full;
+}
+
+.rankUniversity {
+    font-size: $font-sm;
+    color: $text-secondary;
+}
+
+.rankScore {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+}
+
+.rankScoreValue {
+    font-size: $font-base;
+    font-weight: $weight-bold;
+    color: $text-primary;
+}
+
+.rankUnit {
+    font-size: $font-xs;
+    color: $text-secondary;
+}
+
+.trendIcon {
+    color: #22c55e;
+    flex-shrink: 0;
+}

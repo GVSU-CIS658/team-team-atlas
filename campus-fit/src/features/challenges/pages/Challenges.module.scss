@@ -1,0 +1,332 @@
+.page {
+    padding: $spacing-4;
+    max-width: 1200px;
+}
+
+.pageHeader {
+    margin-bottom: $spacing-4;
+
+    h1 {
+        font-size: $font-2xl;
+        font-weight: $weight-bold;
+        color: $text-primary;
+        margin: 0 0 6px;
+    }
+
+    p {
+        font-size: $font-sm;
+        color: $text-secondary;
+        margin: 0;
+    }
+}
+
+/* ── Stats row ─────────────────────────────────────── */
+.statsRow {
+    display: flex;
+    gap: $spacing-3;
+    margin-bottom: $spacing-4;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+    }
+}
+
+.statCard {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+    background: white;
+    border: 1px solid $border-color;
+    border-radius: $radius-lg;
+    padding: $spacing-3 $spacing-4;
+
+    div:last-child {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+}
+
+.statLabel {
+    font-size: $font-sm;
+    color: $text-secondary;
+}
+
+.statValue {
+    font-size: $font-xl;
+    font-weight: $weight-bold;
+    color: $text-primary;
+}
+
+.statIcon {
+    width: 48px;
+    height: 48px;
+    border-radius: $radius-full;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    &.purple {
+        background: #f3e8ff;
+        color: #9333ea;
+    }
+
+    &.blue {
+        background: #dbeafe;
+        color: #3b82f6;
+    }
+
+    &.green {
+        background: #dcfce7;
+        color: #22c55e;
+    }
+}
+
+/* ── Tabs ──────────────────────────────────────────── */
+.tabs {
+    display: inline-flex;
+    background: #f3f4f6;
+    border-radius: $radius-lg;
+    padding: 4px;
+    margin-bottom: $spacing-4;
+}
+
+.tab {
+    padding: 8px 20px;
+    border: none;
+    background: none;
+    border-radius: $radius-md;
+    font-size: $font-sm;
+    font-weight: $weight-medium;
+    color: $text-secondary;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+
+    &:hover {
+        color: $text-primary;
+    }
+}
+
+.activeTab {
+    background: white;
+    color: $text-primary;
+    font-weight: $weight-semibold;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* ── Card grid ─────────────────────────────────────── */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-3;
+
+    @media (max-width: 900px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ── Challenge card ────────────────────────────────── */
+.card {
+    background: white;
+    border: 1px solid $border-color;
+    border-radius: $radius-lg;
+    padding: $spacing-4;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-3;
+}
+
+.cardHeader {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: $spacing-2;
+}
+
+.cardTitle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    h3 {
+        font-size: $font-md;
+        font-weight: $weight-bold;
+        color: $text-primary;
+        margin: 0;
+    }
+}
+
+.trophyIcon {
+    color: #d97706;
+    flex-shrink: 0;
+}
+
+.prizeBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    background: #f3f4f6;
+    border-radius: $radius-full;
+    font-size: $font-xs;
+    font-weight: $weight-medium;
+    color: $text-secondary;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.cardDesc {
+    font-size: $font-sm;
+    color: #4a90c4;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* ── Meta row (participants + days left) ───────────── */
+.metaRow {
+    display: flex;
+    gap: $spacing-5;
+}
+
+.metaItem {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.metaIcon {
+    color: #9ca3af;
+}
+
+.metaLabel {
+    display: block;
+    font-size: $font-xs;
+    color: #4a90c4;
+}
+
+.metaValue {
+    display: block;
+    font-size: $font-md;
+    font-weight: $weight-semibold;
+    color: $text-primary;
+}
+
+/* ── Prize banner ──────────────────────────────────── */
+.prizeBanner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #fefce8;
+    border-radius: $radius-md;
+    padding: 10px 14px;
+    font-size: $font-sm;
+    font-weight: $weight-medium;
+    color: #d97706;
+}
+
+/* ── Progress ──────────────────────────────────────── */
+.progressSection {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.progressHeader {
+    display: flex;
+    justify-content: space-between;
+    font-size: $font-sm;
+    color: $text-secondary;
+}
+
+.rankLabel {
+    font-weight: $weight-semibold;
+    color: $text-primary;
+}
+
+.progressBar {
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: $radius-full;
+    overflow: hidden;
+}
+
+.progressFill {
+    height: 100%;
+    background: $text-primary;
+    border-radius: $radius-full;
+    transition: width 0.3s ease;
+}
+
+.progressFooter {
+    display: flex;
+    justify-content: space-between;
+    font-size: $font-sm;
+    color: $text-secondary;
+}
+
+.pct {
+    color: #3b82f6;
+    font-weight: $weight-medium;
+}
+
+/* ── Card actions ──────────────────────────────────── */
+.cardActions {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    margin-top: 4px;
+}
+
+.leaderboardBtn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px;
+    background: white;
+    border: 1px solid $border-color;
+    border-radius: $radius-md;
+    font-size: $font-sm;
+    font-weight: $weight-medium;
+    color: $text-primary;
+    cursor: pointer;
+
+    &:hover {
+        background: #f9fafb;
+    }
+}
+
+.leaveBtn {
+    background: none;
+    border: none;
+    font-size: $font-sm;
+    font-weight: $weight-medium;
+    color: #dc2626;
+    cursor: pointer;
+    padding: 10px 4px;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+/* ── Join button ───────────────────────────────────── */
+.joinBtn {
+    width: 100%;
+    padding: 13px;
+    background: linear-gradient(90deg, #4361ee, #a855f7);
+    color: white;
+    border: none;
+    border-radius: $radius-md;
+    font-size: $font-base;
+    font-weight: $weight-semibold;
+    cursor: pointer;
+    margin-top: 4px;
+
+    &:hover {
+        opacity: 0.92;
+    }
+}
