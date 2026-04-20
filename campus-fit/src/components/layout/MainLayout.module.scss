@@ -6,14 +6,15 @@
 }
 
 .contentSection {
+  padding: $spacing-4 $spacing-2;
   display: flex;
+  gap: $spacing-4;
   flex: 1;
   overflow: hidden;
 }
 
 .pageBody {
   flex: 1;
-  padding: 2rem;
   background-color: $body-bg;
   overflow-y: auto;
 }
