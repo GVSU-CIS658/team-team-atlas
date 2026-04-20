@@ -1,7 +1,7 @@
-// src/components/layout/Sidebar.tsx
 import { NavLink } from "react-router-dom";
 import { LayoutDashboard, Target, Trophy, Users, User } from "lucide-react";
 import { Avatar } from "../ui/Avatar/Avatar";
+import { useAuth } from "../../features/auth/context/AuthContext";
 import styles from "./Sidebar.module.scss";
 
 const Sidebar = ({
@@ -11,6 +11,7 @@ const Sidebar = ({
   isOpen: boolean;
   onClose: () => void;
 }) => {
+  const { user } = useAuth();
   const menuItems = [
     { name: "Dashboard", path: "/", icon: <LayoutDashboard size={20} /> },
     { name: "Goals", path: "/goals", icon: <Target size={20} /> },
@@ -22,9 +23,9 @@ const Sidebar = ({
   return (
     <aside className={`${styles.sidebar} ${isOpen ? styles.open : ""}`}>
       <div className={styles.mobileProfile}>
-        <Avatar src="/Profile.png" alt="Alex Morgan" size="large" />
+        <Avatar src="/Profile.png" alt={user?.username ?? ''} size="large" />
         <div className={styles.mobileInfo}>
-          <span className={styles.userName}>Alex Morgan</span>
+          <span className={styles.userName}>{user?.username ?? ''}</span>
           <span className={styles.userSub}>GVSU Student</span>
         </div>
       </div>

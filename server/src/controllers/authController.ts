@@ -7,6 +7,10 @@ const COOKIE_NAME = 'campusfit_rt';
 const ACCESS_TOKEN_EXPIRY = 900; // 15 minutes in seconds
 const REFRESH_TOKEN_EXPIRY = '7d';
 
+// Temporary in-memory store — replaced once DB is connected
+interface StoredUser { id: string; username: string; email: string; password: string; createdAt: string; }
+const inMemoryUsers = new Map<string, StoredUser>();
+
 const isProduction = process.env.NODE_ENV === 'production';
 
 function signAccessToken(payload: JwtPayload): string {
@@ -54,31 +58,27 @@ export const register = async (req: Request, res: Response): Promise<void> => {
         return;
     }
 
-    // TODO: check for duplicate email in DB
-    // const existing = await db.findUserByEmail(email);
-    // if (existing) { res.status(409).json(...); return; }
+    // TODO: replace with DB lookup
+    if (inMemoryUsers.has(email.toLowerCase())) {
+        res.status(409).json({ success: false, error: { code: 'CONFLICT', message: 'An account with this email already exists' } });
+        return;
+    }
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
     // TODO: insert user into DB
-    // const user = await db.createUser({ username, email, password: hashedPassword });
-
-    // Placeholder response — replace with actual DB-returned user
-    const user = {
-        id: 'placeholder-id',
+    const user: StoredUser = {
+        id: crypto.randomUUID(),
         username,
-        email,
+        email: email.toLowerCase(),
+        password: hashedPassword,
         createdAt: new Date().toISOString(),
     };
+    inMemoryUsers.set(user.email, user);
 
     res.status(201).json({
         success: true,
-        data: {
-            id: user.id,
-            username: user.username,
-            email: user.email,
-            createdAt: user.createdAt,
-        },
+        data: { id: user.id, username: user.username, email: user.email, createdAt: user.createdAt },
     });
 };
 
@@ -94,16 +94,18 @@ export const login = async (req: Request, res: Response): Promise<void> => {
         return;
     }
 
-    // TODO: fetch user from DB by email
-    // const user = await db.findUserByEmail(email);
-    // if (!user) { res.status(401).json(...); return; }
+    // TODO: replace with DB lookup
+    const user = inMemoryUsers.get(email.toLowerCase());
+    if (!user) {
+        res.status(401).json({ success: false, error: { code: 'UNAUTHORIZED', message: 'Invalid email or password' } });
+        return;
+    }
 
-    // TODO: compare password
-    // const valid = await bcrypt.compare(password, user.password);
-    // if (!valid) { res.status(401).json(...); return; }
-
-    // Placeholder — replace with real user from DB
-    const user = { id: 'placeholder-id', email, username: 'placeholder' };
+    const valid = await bcrypt.compare(password, user.password);
+    if (!valid) {
+        res.status(401).json({ success: false, error: { code: 'UNAUTHORIZED', message: 'Invalid email or password' } });
+        return;
+    }
 
     const tokenPayload: JwtPayload = { id: user.id, email: user.email, username: user.username };
     const accessToken = signAccessToken(tokenPayload);

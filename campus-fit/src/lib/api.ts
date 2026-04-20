@@ -41,6 +41,7 @@ export async function apiFetch<T>(
   const res = await fetch(`${API_BASE}${endpoint}`, {
     ...options,
     headers,
+    credentials: 'include',
   });
 
   if (!res.ok) {

@@ -48,12 +48,27 @@
     gap: 16px;
 
     .headerProfile {
+      position: relative;
       display: flex;
       align-items: center;
-      gap: 12px;
 
       @media (max-width: 768px) {
         display: none;
+      }
+
+      .profileButton {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 6px 8px;
+        border-radius: $radius-md;
+
+        &:hover {
+          background: #f3f4f6;
+        }
       }
 
       .userInfo {
@@ -70,6 +85,37 @@
         .userSub {
           font-size: 0.75rem;
           color: #6b7280;
+        }
+      }
+
+      .dropdown {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        background: white;
+        border: 1px solid $border-color;
+        border-radius: $radius-md;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        min-width: 140px;
+        z-index: 200;
+        overflow: hidden;
+      }
+
+      .dropdownItem {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+        padding: 10px 14px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: $font-sm;
+        color: #dc2626;
+        text-align: left;
+
+        &:hover {
+          background: #fef2f2;
         }
       }
     }
