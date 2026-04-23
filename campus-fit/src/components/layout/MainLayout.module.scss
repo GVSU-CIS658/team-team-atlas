@@ -3,17 +3,18 @@
   flex-direction: column;
   height: 100vh;
   width: 100%;
+  padding-top: 65px;
 }
 
 .contentSection {
-  padding: $spacing-4 $spacing-2;
+  padding: 0 $spacing-2;
   display: flex;
   gap: $spacing-4;
   flex: 1;
-  overflow: hidden;
 }
 
 .pageBody {
+  margin: $spacing-4 0;
   flex: 1;
   background-color: $body-bg;
   overflow-y: auto;

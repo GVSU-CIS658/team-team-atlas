@@ -1,3 +1,64 @@
-.pageHeader {
-  @include page-header;
+@use '../../../styles/variables' as *;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+}
+
+.heading {
+  font-size: $font-2xl;
+  font-weight: $weight-bold;
+  color: $text-primary;
+  margin: 0;
+}
+
+.subheading {
+  font-size: $font-base;
+  color: $text-secondary;
+  margin: $spacing-1 0 0;
+}
+
+.middleRow {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: $spacing-3;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.chartCol,
+.goalsCol {
+  min-width: 0;
+}
+
+.bottomRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-3;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.activityCol,
+.challengesCol {
+  min-width: 0;
+}
+
+.loading,
+.error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  font-size: $font-base;
+  color: $text-secondary;
+}
+
+.error {
+  color: #dc2626;
 }

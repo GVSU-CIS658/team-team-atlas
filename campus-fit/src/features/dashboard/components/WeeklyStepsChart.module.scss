@@ -1,0 +1,95 @@
+@use '../../../styles/variables' as *;
+
+.container {
+  background: #fff;
+  border: 1px solid $border-color;
+  border-radius: $radius-lg;
+  padding: $spacing-3;
+}
+
+.header {
+  margin-bottom: $spacing-3;
+}
+
+.title {
+  font-size: $font-md;
+  font-weight: $weight-semibold;
+  color: $text-primary;
+  margin: 0;
+}
+
+.subtitle {
+  font-size: $font-sm;
+  color: $text-secondary;
+  margin: $spacing-1 0 0;
+}
+
+.chart {
+  display: flex;
+  gap: $spacing-2;
+  height: 200px;
+}
+
+.yAxis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 24px;
+}
+
+.yLabel {
+  font-size: $font-xs;
+  color: $text-secondary;
+  text-align: right;
+  min-width: 48px;
+}
+
+.bars {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  gap: $spacing-1;
+}
+
+.barGroup {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+.barTrack {
+  flex: 1;
+  width: 100%;
+  max-width: 40px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.barFill {
+  width: 100%;
+  background: #4f46e5;
+  border-radius: $radius-sm $radius-sm 0 0;
+  min-height: 2px;
+  transition: height 0.3s ease;
+}
+
+.dayLabel {
+  font-size: $font-xs;
+  color: $text-secondary;
+  margin-top: $spacing-1;
+}
+
+.emptyLabel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $font-sm;
+  color: $text-secondary;
+  margin: 0;
+  pointer-events: none;
+}

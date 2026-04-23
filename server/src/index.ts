@@ -2,6 +2,9 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import dotenv from 'dotenv';
+import authRoutes from './routes/auth';
+import dashboardRoutes from './routes/dashboard';
 
 import authRouter from './routes/auth';
 
@@ -22,6 +25,8 @@ app.get('/api/v1/health', (_req, res) => {
 });
 
 app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/dashboard', dashboardRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

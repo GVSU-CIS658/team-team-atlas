@@ -1,0 +1,104 @@
+@use '../../../styles/variables' as *;
+
+.container {
+  height: 100%;
+  background: #fff;
+  border: 1px solid $border-color;
+  border-radius: $radius-lg;
+  padding: $spacing-3;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: $spacing-2;
+}
+
+.title {
+  font-size: $font-md;
+  font-weight: $weight-semibold;
+  color: $text-primary;
+  margin: 0;
+}
+
+.subtitle {
+  font-size: $font-sm;
+  color: $text-secondary;
+  margin: 2px 0 0;
+}
+
+.addBtn {
+  background: none;
+  border: none;
+  color: #4f46e5;
+  font-size: $font-sm;
+  font-weight: $weight-medium;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.goalList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+}
+
+.empty {
+  font-size: $font-sm;
+  color: $text-secondary;
+  text-align: center;
+  padding: $spacing-3;
+}
+
+.goalRow {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-1;
+}
+
+.goalInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.goalTitle {
+  font-size: $font-base;
+  font-weight: $weight-medium;
+  color: $text-primary;
+}
+
+.goalProgress {
+  font-size: $font-sm;
+  color: $text-secondary;
+}
+
+.frequencyBadge {
+  align-self: flex-end;
+  font-size: $font-xs;
+  font-weight: $weight-medium;
+  color: #4f46e5;
+  background: #eef2ff;
+  padding: 2px 8px;
+  border-radius: $radius-sm;
+  text-transform: capitalize;
+}
+
+.progressBar {
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: #4f46e5;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}

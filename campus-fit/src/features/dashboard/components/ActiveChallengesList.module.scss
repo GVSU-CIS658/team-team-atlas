@@ -1,0 +1,103 @@
+@use '../../../styles/variables' as *;
+
+.container {
+  background: #fff;
+  border: 1px solid $border-color;
+  border-radius: $radius-lg;
+  padding: $spacing-3;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: $spacing-2;
+}
+
+.title {
+  font-size: $font-md;
+  font-weight: $weight-semibold;
+  color: $text-primary;
+  margin: 0;
+}
+
+.subtitle {
+  font-size: $font-sm;
+  color: $text-secondary;
+  margin: 2px 0 0;
+}
+
+.viewAll {
+  @include dashboard-button;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+}
+
+.empty {
+  font-size: $font-sm;
+  color: $text-secondary;
+  text-align: center;
+  padding: $spacing-3;
+}
+
+.card {
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  padding: $spacing-2;
+}
+
+.cardHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: $spacing-1;
+}
+
+.challengeTitle {
+  font-size: $font-base;
+  font-weight: $weight-medium;
+  color: $text-primary;
+}
+
+.rank {
+  font-size: $font-xs;
+  color: $text-secondary;
+}
+
+.progressRow {
+  display: flex;
+  align-items: center;
+  gap: $spacing-1;
+  margin-bottom: 4px;
+}
+
+.progressBar {
+  flex: 1;
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: #4f46e5;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.percentage {
+  font-size: $font-xs;
+  color: $text-secondary;
+  min-width: 32px;
+  text-align: right;
+}
+
+.progressText {
+  font-size: $font-sm;
+  color: $text-secondary;
+}

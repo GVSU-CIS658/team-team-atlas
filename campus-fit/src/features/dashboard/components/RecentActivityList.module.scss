@@ -1,0 +1,91 @@
+@use '../../../styles/variables' as *;
+
+.container {
+  background: #fff;
+  border: 1px solid $border-color;
+  border-radius: $radius-lg;
+  padding: $spacing-3;
+}
+
+.header {
+  margin-bottom: $spacing-2;
+}
+
+.title {
+  font-size: $font-md;
+  font-weight: $weight-semibold;
+  color: $text-primary;
+  margin: 0;
+}
+
+.subtitle {
+  font-size: $font-sm;
+  color: $text-secondary;
+  margin: 2px 0 0;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  padding: $spacing-2;
+  margin-bottom: $spacing-2;
+  border-radius: $radius-md;
+  background-color: $body-bg;
+}
+
+.icon {
+  font-size: $font-xl;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f4f6;
+  border-radius: $radius-full;
+  flex-shrink: 0;
+}
+
+.info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.activityTitle {
+  font-size: $font-base;
+  font-weight: $weight-medium;
+  color: $text-primary;
+}
+
+.activityDetail {
+  font-size: $font-sm;
+  color: $text-secondary;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.date {
+  font-size: $font-sm;
+  color: $text-secondary;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.empty {
+  font-size: $font-sm;
+  color: $text-secondary;
+  text-align: center;
+  padding: $spacing-3;
+}
