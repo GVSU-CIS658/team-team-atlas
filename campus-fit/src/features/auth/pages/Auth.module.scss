@@ -32,20 +32,16 @@
 
     p {
         font-size: $font-sm;
-        color: #5b92c7;
+        color: $text-secondary;
         margin: 0;
     }
 }
 
 .logoIcon {
-    width: 56px;
     height: 56px;
-    background: linear-gradient(135deg, #0ea5e9, #14b8a6);
-    border-radius: $radius-full;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
+    width: auto;
+    display: block;
+    object-fit: contain;
     margin-bottom: 4px;
 }
 
@@ -69,7 +65,7 @@
 
     p {
         font-size: $font-sm;
-        color: #4a90c4;
+        color: $text-secondary;
         margin: 0;
     }
 }

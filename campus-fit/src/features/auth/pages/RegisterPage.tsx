@@ -51,6 +51,7 @@ export default function RegisterPage() {
         <div className={styles.page}>
             <div className={styles.container}>
                 <div className={styles.logoSection}>
+                    <img src="/campusfit-logo.svg" alt="CampusFit" className={styles.logoIcon} />
                     <h1>CampusFit</h1>
                     <p>Join your campus fitness community</p>
                 </div>

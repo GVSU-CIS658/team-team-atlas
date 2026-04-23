@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, Eye, EyeOff, Activity } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { ApiError } from '../../../lib/api';
 import styles from './Auth.module.scss';
 
 export default function LoginPage() {
@@ -21,7 +22,23 @@ export default function LoginPage() {
             await login(email, password);
             navigate('/');
         } catch (err: unknown) {
-            setError(err instanceof Error ? err.message : 'Login failed. Please try again.');
+            if (err instanceof ApiError) {
+                switch (err.code) {
+                    case 'UNAUTHORIZED':
+                        setError('Incorrect email or password. Please try again.');
+                        break;
+                    case 'VALIDATION_ERROR':
+                        setError('Please enter your email and password.');
+                        break;
+                    case 'RATE_LIMITED':
+                        setError('Too many attempts. Please wait a few minutes and try again.');
+                        break;
+                    default:
+                        setError('Something went wrong. Please try again.');
+                }
+            } else {
+                setError('Unable to connect. Please check your connection and try again.');
+            }
         } finally {
             setIsLoading(false);
         }
@@ -31,9 +48,7 @@ export default function LoginPage() {
         <div className={styles.page}>
             <div className={styles.container}>
                 <div className={styles.logoSection}>
-                    <div className={styles.logoIcon}>
-                        <Activity size={26} />
-                    </div>
+                    <img src="/campusfit-logo.svg" alt="CampusFit" className={styles.logoIcon} />
                     <h1>CampusFit</h1>
                     <p>Stay fit, stay motivated, stay connected</p>
                 </div>
