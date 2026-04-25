@@ -50,8 +50,11 @@ $weight-bold: 700;
   white-space: nowrap;
   transition: border-color 0.25s ease-out;
 
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     color: $text-primary;
     border-color: $text-primary;
   }
 }
+/* Brand Colors */
+$brand-gradient: linear-gradient(135deg, #155dfc 0%, #9810fa 100%);

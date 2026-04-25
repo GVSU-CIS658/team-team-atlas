@@ -1,0 +1,59 @@
+.statCard {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+  min-width: 240px;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+}
+
+.iconWrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &.blue {
+    background-color: #eef6ff;
+    color: #007bff;
+  }
+  &.green {
+    background-color: #f0fdf4;
+    color: #22c55e;
+  }
+  &.purple {
+    background-color: #f5f3ff;
+    color: #8b5cf6;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  .title {
+    font-size: $font-sm;
+    color: $text-secondary;
+    font-weight: $weight-medium;
+  }
+
+  .value {
+    font-size: $font-xl;
+    font-weight: $weight-bold;
+    color: $text-primary;
+    margin: 0;
+    line-height: 1;
+  }
+}

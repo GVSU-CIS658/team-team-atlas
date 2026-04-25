@@ -1,3 +1,55 @@
 .pageHeader {
   @include page-header;
 }
+
+.goalsContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.statsGrid {
+  display: flex;
+  gap: $spacing-4;
+  flex-wrap: wrap;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+.pageHeaderWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: $spacing-6;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: $spacing-3;
+  }
+}
+
+.addGoalBtn {
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.goalsList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+  margin-top: $spacing-6;
+}

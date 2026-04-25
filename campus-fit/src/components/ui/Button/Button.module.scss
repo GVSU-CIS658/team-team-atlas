@@ -1,0 +1,37 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  /* Specs from your screenshot */
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 8px;
+
+  font-size: $font-sm;
+  font-weight: $weight-semibold;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+
+  &:active {
+    transform: scale(0.96);
+  }
+}
+
+.primary {
+  background: $brand-gradient;
+  color: white;
+
+  &:hover {
+    opacity: 0.9;
+    box-shadow: 0 4px 12px rgba(21, 93, 252, 0.2);
+  }
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+}
