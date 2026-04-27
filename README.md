@@ -21,6 +21,9 @@ Your **Term Project** is an essential part of the course. Please review the inst
 
 Best of luck! 🚀
 
+## **View the project live**
+https://atlas-campusfit.netlify.app/
+
 ## **Project Setup**
 1. Clone the repo
 2. Install dependencies:
