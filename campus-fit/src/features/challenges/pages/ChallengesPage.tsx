@@ -22,9 +22,12 @@ interface AvailableChallenge {
     description: string;
     participants: number;
     daysLeft: number;
+    prize: string | null;
+    target: number;
+    unit: string;
 }
 
-const MY_CHALLENGES: MyChallenge[] = [
+const INITIAL_MY_CHALLENGES: MyChallenge[] = [
     {
         id: '1',
         title: 'March Madness Steps',
@@ -63,22 +66,22 @@ const MY_CHALLENGES: MyChallenge[] = [
     },
 ];
 
-const AVAILABLE_CHALLENGES: AvailableChallenge[] = [
+const INITIAL_AVAILABLE_CHALLENGES: AvailableChallenge[] = [
     {
         id: '4',
         title: 'Calorie Crusher',
         description: 'Burn 10,000 calories through exercise',
         participants: 198,
         daysLeft: -20,
+        prize: null,
+        target: 10000,
+        unit: 'calories',
     },
 ];
 
-function MyChallengeCard({ challenge }: { challenge: MyChallenge }) {
+function MyChallengeCard({ challenge, onLeave }: { challenge: MyChallenge; onLeave: (id: string) => void }) {
     const navigate = useNavigate();
     const pct = Math.round((challenge.progress / challenge.target) * 100);
-    const progressDisplay = challenge.progress % 1 === 0
-        ? challenge.progress.toLocaleString()
-        : challenge.progress.toLocaleString();
 
     return (
         <div className={styles.card}>
@@ -128,7 +131,7 @@ function MyChallengeCard({ challenge }: { challenge: MyChallenge }) {
                     <div className={styles.progressFill} style={{ width: `${pct}%` }} />
                 </div>
                 <div className={styles.progressFooter}>
-                    <span>{progressDisplay} / {challenge.target.toLocaleString()} {challenge.unit}</span>
+                    <span>{challenge.progress.toLocaleString()} / {challenge.target.toLocaleString()} {challenge.unit}</span>
                     <span className={styles.pct}>{pct}%</span>
                 </div>
             </div>
@@ -138,13 +141,13 @@ function MyChallengeCard({ challenge }: { challenge: MyChallenge }) {
                     <LeaderboardIcon size={15} />
                     View Leaderboard
                 </button>
-                <button className={styles.leaveBtn}>Leave</button>
+                <button className={styles.leaveBtn} onClick={() => onLeave(challenge.id)}>Leave</button>
             </div>
         </div>
     );
 }
 
-function AvailableChallengeCard({ challenge }: { challenge: AvailableChallenge }) {
+function AvailableChallengeCard({ challenge, onJoin }: { challenge: AvailableChallenge; onJoin: (id: string) => void }) {
     return (
         <div className={styles.card}>
             <div className={styles.cardHeader}>
@@ -177,13 +180,66 @@ function AvailableChallengeCard({ challenge }: { challenge: AvailableChallenge }
                 </div>
             </div>
 
-            <button className={styles.joinBtn}>Join Challenge</button>
+            <button className={styles.joinBtn} onClick={() => onJoin(challenge.id)}>Join Challenge</button>
+        </div>
+    );
+}
+
+function EmptyAvailable() {
+    return (
+        <div className={styles.emptyState}>
+            <Trophy size={48} className={styles.emptyIcon} />
+            <h3>All Caught Up!</h3>
+            <p>You've joined all available challenges. Check back later for new ones.</p>
         </div>
     );
 }
 
 export default function ChallengesPage() {
     const [activeTab, setActiveTab] = useState<'mine' | 'available'>('mine');
+    const [myChallenges, setMyChallenges] = useState<MyChallenge[]>(INITIAL_MY_CHALLENGES);
+    const [availableChallenges, setAvailableChallenges] = useState<AvailableChallenge[]>(INITIAL_AVAILABLE_CHALLENGES);
+
+    const handleJoin = (id: string) => {
+        const challenge = availableChallenges.find(c => c.id === id);
+        if (!challenge) return;
+
+        const joined: MyChallenge = {
+            id: challenge.id,
+            title: challenge.title,
+            description: challenge.description,
+            participants: challenge.participants + 1,
+            daysLeft: challenge.daysLeft,
+            prize: challenge.prize,
+            progress: 0,
+            target: challenge.target,
+            unit: challenge.unit,
+            rank: 199,
+        };
+
+        setMyChallenges(prev => [...prev, joined]);
+        setAvailableChallenges(prev => prev.filter(c => c.id !== id));
+        setActiveTab('mine');
+    };
+
+    const handleLeave = (id: string) => {
+        const challenge = myChallenges.find(c => c.id === id);
+        if (!challenge) return;
+
+        const restored: AvailableChallenge = {
+            id: challenge.id,
+            title: challenge.title,
+            description: challenge.description,
+            participants: Math.max(0, challenge.participants - 1),
+            daysLeft: challenge.daysLeft,
+            prize: challenge.prize,
+            target: challenge.target,
+            unit: challenge.unit,
+        };
+
+        setMyChallenges(prev => prev.filter(c => c.id !== id));
+        setAvailableChallenges(prev => [...prev, restored]);
+    };
 
     return (
         <div className={styles.page}>
@@ -199,7 +255,7 @@ export default function ChallengesPage() {
                     </div>
                     <div>
                         <span className={styles.statLabel}>Active Challenges</span>
-                        <span className={styles.statValue}>{MY_CHALLENGES.length}</span>
+                        <span className={styles.statValue}>{myChallenges.length}</span>
                     </div>
                 </div>
                 <div className={styles.statCard}>
@@ -227,28 +283,32 @@ export default function ChallengesPage() {
                     className={`${styles.tab} ${activeTab === 'mine' ? styles.activeTab : ''}`}
                     onClick={() => setActiveTab('mine')}
                 >
-                    My Challenges ({MY_CHALLENGES.length})
+                    My Challenges ({myChallenges.length})
                 </button>
                 <button
                     className={`${styles.tab} ${activeTab === 'available' ? styles.activeTab : ''}`}
                     onClick={() => setActiveTab('available')}
                 >
-                    Available ({AVAILABLE_CHALLENGES.length})
+                    Available ({availableChallenges.length})
                 </button>
             </div>
 
             {activeTab === 'mine' ? (
                 <div className={styles.grid}>
-                    {MY_CHALLENGES.map(c => (
-                        <MyChallengeCard key={c.id} challenge={c} />
+                    {myChallenges.map(c => (
+                        <MyChallengeCard key={c.id} challenge={c} onLeave={handleLeave} />
                     ))}
                 </div>
             ) : (
-                <div className={styles.grid}>
-                    {AVAILABLE_CHALLENGES.map(c => (
-                        <AvailableChallengeCard key={c.id} challenge={c} />
-                    ))}
-                </div>
+                availableChallenges.length === 0 ? (
+                    <EmptyAvailable />
+                ) : (
+                    <div className={styles.grid}>
+                        {availableChallenges.map(c => (
+                            <AvailableChallengeCard key={c.id} challenge={c} onJoin={handleJoin} />
+                        ))}
+                    </div>
+                )
             )}
         </div>
     );

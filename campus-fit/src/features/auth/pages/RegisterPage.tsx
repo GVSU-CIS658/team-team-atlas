@@ -16,7 +16,7 @@ export default function RegisterPage() {
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const { register } = useAuth();
+    const { register, login } = useAuth();
     const navigate = useNavigate();
 
     const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +39,8 @@ export default function RegisterPage() {
         setIsLoading(true);
         try {
             await register(fullName, email, password, university, avatar);
-            navigate('/login');
+            await login(email, password);
+            navigate('/');
         } catch (err: unknown) {
             setError(err instanceof Error ? err.message : 'Registration failed. Please try again.');
         } finally {
