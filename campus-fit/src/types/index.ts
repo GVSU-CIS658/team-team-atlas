@@ -41,15 +41,48 @@ export interface ActiveChallenge {
   userProgress: number;
   rank: number;
 }
-
 export interface Goal {
   id: string;
-  userId: string;
   title: string;
-  description: string;
-  targetValue: number;
+  description: string | null;
   unit: string;
   frequency: string;
-  status: 'active' | 'completed';
+  status: "active" | "completed";
   createdAt: string;
+  targetValue: number;
+  currentValue: number;
+  progressPct: number;
+  remaining: number;
+  isOnTrack: boolean;
+}
+
+export interface GoalSummary {
+  totalGoals: number;
+  onTrack: number;
+  avgProgress: number;
+}
+
+export interface CreateGoalPayload {
+  title: string;
+  description?: string;
+  unit: string;
+  frequency: string;
+  targetValue: number;
+}
+
+export interface UpdateGoalPayload {
+  title?: string;
+  description?: string;
+  unit?: string;
+  frequency?: string;
+  targetValue?: number;
+  status?: "active" | "completed";
+}
+
+export interface LogActivityPayload {
+  value: number;
+  date?: string;
+  notes?: string;
+  durationMinutes?: number;
+  caloriesBurned?: number;
 }

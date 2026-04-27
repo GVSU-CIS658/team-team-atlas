@@ -1,14 +1,15 @@
-import { useEffect, useState } from 'react';
-import { api } from '../../../lib/api';
-import type { Goal } from '../../../types';
-import styles from './GoalsSummary.module.scss';
+import { useEffect, useState } from "react";
+import { api } from "../../../lib/api";
+import type { Goal } from "../../../types";
+import styles from "./GoalsSummary.module.scss";
 
 export default function GoalsSummary() {
   const [goals, setGoals] = useState<Goal[]>([]);
 
   useEffect(() => {
-    api.get<Goal[]>('/goals?status=active&limit=3')
-      .then(setGoals)
+    api
+      .get<{ summary: unknown; goals: Goal[] }>("/goals?status=active&limit=3")
+      .then((data) => setGoals(data.goals))
       .catch(() => {});
   }, []);
 
@@ -35,22 +36,21 @@ export default function GoalsSummary() {
 }
 
 function GoalRow({ goal }: { goal: Goal }) {
-  const progress = 0; // Placeholder — computed from activities in the goals feature
-  const percentage = goal.targetValue > 0
-    ? Math.min(100, Math.round((progress / goal.targetValue) * 100))
-    : 0;
-
   return (
     <div className={styles.goalRow}>
       <div className={styles.goalInfo}>
         <span className={styles.goalTitle}>{goal.title}</span>
         <span className={styles.goalProgress}>
-          {progress.toLocaleString()} / {goal.targetValue.toLocaleString()} {goal.unit}
+          {goal.currentValue.toLocaleString()} /{" "}
+          {goal.targetValue.toLocaleString()} {goal.unit}
         </span>
       </div>
       <span className={styles.frequencyBadge}>{goal.frequency}</span>
       <div className={styles.progressBar}>
-        <div className={styles.progressFill} style={{ width: `${percentage}%` }} />
+        <div
+          className={styles.progressFill}
+          style={{ width: `${goal.progressPct}%` }}
+        />
       </div>
     </div>
   );

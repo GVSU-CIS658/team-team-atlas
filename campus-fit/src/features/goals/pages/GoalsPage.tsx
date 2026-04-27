@@ -7,74 +7,94 @@ import LogActivity from "../../../components/ui/LogActivity/LogActivity";
 import Button from "../../../components/ui/Button/Button";
 import CreateGoalModal from "./CreateGoalModal";
 import EditGoalModal from "../../../components/ui/GoalCard/EditGoalModal";
+import { useGoals } from "../hooks/useGoals";
+import { api } from "../../../lib/api";
+import type { Goal, LogActivityPayload } from "../../../types";
 
-interface Goal {
-  id: string;
-  title: string;
-  tag: string;
-  description: string;
-  current: number;
-  total: number;
-  unit: string;
-  color?: string;
-  remainingText: string;
+const frequencyLabel: Record<string, string> = {
+  daily: "Daily",
+  weekly: "Weekly",
+  monthly: "Monthly",
+};
+
+const unitColor: Record<string, string> = {
+  steps: "#111111",
+  workouts: "#155dfc",
+  miles: "#9810fa",
+  calories: "#e84040",
+  km: "#0ea86a",
+};
+
+function goalColor(goal: Goal): string {
+  return unitColor[goal.unit] ?? "#155dfc";
+}
+
+function remainingText(goal: Goal): string {
+  return `${goal.remaining.toLocaleString()} ${goal.unit} to go`;
 }
 
 const GoalsPage: FC = () => {
-  const [goals, setGoals] = useState<Goal[]>([
-    {
-      id: "1",
-      title: "Daily Steps",
-      tag: "Daily",
-      description: "Walk 10,000 steps every day",
-      current: 7500,
-      total: 10000,
-      unit: "steps",
-      remainingText: "2,500 steps to go",
-      color: "#111",
-    },
-    {
-      id: "2",
-      title: "Weekly Workouts",
-      tag: "Weekly",
-      description: "Complete 5 sessions",
-      current: 2,
-      total: 5,
-      unit: "workouts",
-      remainingText: "3 sessions to go",
-      color: "#155dfc",
-    },
-    {
-      id: "3",
-      title: "Monthly Running",
-      tag: "Monthly",
-      description: "Run 50 miles",
-      current: 5,
-      total: 50,
-      unit: "miles",
-      remainingText: "45 miles to go",
-      color: "#9810fa",
-    },
-  ]);
+  const { summary, goals, loading, error, refetch } = useGoals();
 
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
-  const [selectedGoal, setSelectedGoal] = useState<any>(null);
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [selectedGoal, setSelectedGoal] = useState<Goal | null>(null);
 
-  const toggleModal = () => setIsModalOpen((prev) => !prev);
+  const handleDelete = async (id: string) => {
+    try {
+      await api.delete(`/goals/${id}`);
+      refetch();
+    } catch (err) {
+      console.error("[GoalsPage] deleteGoal error:", err);
+    }
+  };
 
   const handleEditClick = (goal: Goal) => {
-    setSelectedGoal({
-      title: goal.title,
-      description: goal.description,
-      targetValue: goal.total,
-    });
-    setIsEditModalOpen(true);
+    setSelectedGoal(goal);
+    setIsEditOpen(true);
   };
 
-  const handleDeleteGoal = (id: string) => {
-    setGoals((prev) => prev.filter((g) => g.id !== id));
+  const handleEditSaved = () => {
+    setIsEditOpen(false);
+    setSelectedGoal(null);
+    refetch();
   };
+
+  const handleGoalCreated = () => {
+    setIsCreateOpen(false);
+    refetch();
+  };
+
+  const handleLogActivity = async (
+    goalId: string,
+    payload: LogActivityPayload,
+  ) => {
+    try {
+      await api.post(`/goals/${goalId}/log`, payload);
+      refetch();
+    } catch (err) {
+      console.error("[GoalsPage] logActivity error:", err);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className={styles.goalsContainer}>
+        <p className={styles.stateMessage}>Loading goals…</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className={styles.goalsContainer}>
+        <p className={styles.stateMessage} style={{ color: "var(--error)" }}>
+          Failed to load goals.
+        </p>
+        <Button onClick={refetch}>Retry</Button>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.goalsContainer}>
@@ -83,7 +103,7 @@ const GoalsPage: FC = () => {
           <h1>My Goals</h1>
           <p>Set and track your personal fitness targets</p>
         </div>
-        <Button icon={<Plus size={18} />} onClick={toggleModal}>
+        <Button icon={<Plus size={18} />} onClick={() => setIsCreateOpen(true)}>
           New Goal
         </Button>
       </div>
@@ -91,54 +111,62 @@ const GoalsPage: FC = () => {
       <div className={styles.statsGrid}>
         <StatCard
           title="Total Goals"
-          value={goals.length.toString()}
+          value={summary.totalGoals.toString()}
           icon={<Target size={24} />}
           variant="blue"
         />
         <StatCard
           title="On Track"
-          value="2"
+          value={summary.onTrack.toString()}
           icon={<CheckCircle size={24} />}
           variant="green"
         />
         <StatCard
           title="Avg. Progress"
-          value="61%"
+          value={`${summary.avgProgress}%`}
           icon={<TrendingUp size={24} />}
           variant="purple"
         />
       </div>
 
       <div className={styles.goalsList}>
-        {goals.map((goal) => (
-          <GoalCard
-            key={goal.id}
-            title={goal.title}
-            tag={goal.tag}
-            description={goal.description}
-            current={goal.current}
-            total={goal.total}
-            unit={goal.unit}
-            remainingText={goal.remainingText}
-            color={goal.color}
-            progressText={`${Math.round((goal.current / goal.total) * 100)}% Complete`}
-            onEdit={() => handleEditClick(goal)}
-            onDelete={() => handleDeleteGoal(goal.id)}
-          />
-        ))}
+        {goals.length === 0 ? (
+          <p className={styles.stateMessage}>
+            No goals yet — hit <strong>New Goal</strong> to get started!
+          </p>
+        ) : (
+          goals.map((goal) => (
+            <GoalCard
+              key={goal.id}
+              title={goal.title}
+              tag={frequencyLabel[goal.frequency] ?? goal.frequency}
+              description={goal.description ?? ""}
+              current={goal.currentValue}
+              total={goal.targetValue}
+              unit={goal.unit}
+              remainingText={remainingText(goal)}
+              color={goalColor(goal)}
+              progressText={`${goal.progressPct}% Complete`}
+              onEdit={() => handleEditClick(goal)}
+              onDelete={() => handleDelete(goal.id)}
+            />
+          ))
+        )}
 
-        <LogActivity />
+        <LogActivity goals={goals} onLog={handleLogActivity} />
       </div>
 
       <CreateGoalModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        isOpen={isCreateOpen}
+        onClose={() => setIsCreateOpen(false)}
+        onSuccess={handleGoalCreated}
       />
 
       <EditGoalModal
-        isOpen={isEditModalOpen}
-        onClose={() => setIsEditModalOpen(false)}
-        initialData={selectedGoal}
+        isOpen={isEditOpen}
+        onClose={() => setIsEditOpen(false)}
+        onSuccess={handleEditSaved}
+        goal={selectedGoal}
       />
     </div>
   );
