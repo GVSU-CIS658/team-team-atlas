@@ -1,0 +1,55 @@
+@use '../../../styles/variables' as *;
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: $spacing-2;
+
+    @media (max-width: 1024px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 480px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.card {
+    background: #fff;
+    border: 1px solid $border-color;
+    border-radius: $radius-lg;
+    padding: $spacing-3;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-1;
+    position: relative;
+    min-width: 0;
+}
+
+.cardLabel {
+    font-size: $font-sm;
+    color: $text-secondary;
+    font-weight: $weight-medium;
+}
+
+.cardValue {
+    font-size: $font-xl;
+    font-weight: $weight-bold;
+    color: $text-primary;
+}
+
+.workoutsValue {
+    color: $color-primary;
+}
+
+.caloriesValue {
+    color: $calorie-red;
+}
+
+.goalsValue {
+    color: $goal-green;
+}
+
+.challengesValue {
+    color: $challenge-purple;
+}

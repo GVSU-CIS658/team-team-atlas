@@ -1,3 +1,5 @@
+export type ActivityUnit = 'steps' | 'calories' | 'distance';
+
 export interface DashboardStats {
   todaySteps: number;
   todayCalories: number;
@@ -6,6 +8,22 @@ export interface DashboardStats {
   activeGoals: number;
   totalGoals: number;
   activeChallenges: number;
+}
+
+export interface UserProfile {
+  id: string;
+  username: string;
+  email: string;
+  university: string | null;
+  createdAt: string;
+}
+
+export interface UserStatistics {
+  totalWorkouts: number;
+  totalCaloriesBurned: number;
+  completedGoals: number;
+  activeChallenges: number;
+  activityCountByUnit: Record<ActivityUnit, number>;
 }
 
 export interface WeeklyStepDay {

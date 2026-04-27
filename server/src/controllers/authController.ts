@@ -30,7 +30,7 @@ function setRefreshCookie(res: Response, token: string): void {
 
 // POST /auth/register
 export const register = async (req: Request, res: Response): Promise<void> => {
-    const { username, email, password } = req.body;
+    const { username, email, password, university } = req.body;
 
     if (!username || !email || !password) {
         res.status(400).json({
@@ -68,14 +68,17 @@ export const register = async (req: Request, res: Response): Promise<void> => {
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
+    const trimmedUniversity = typeof university === 'string' ? university.trim() : '';
+
     const { data: user, error } = await supabase
         .from('users')
         .insert({
             username,
             email: email.toLowerCase(),
             password_hash: hashedPassword,
+            university: trimmedUniversity || null,
         })
-        .select('id, username, email, created_at')
+        .select('id, username, email, university, created_at')
         .single();
 
     if (error || !user) {
@@ -85,7 +88,13 @@ export const register = async (req: Request, res: Response): Promise<void> => {
 
     res.status(201).json({
         success: true,
-        data: { id: user.id, username: user.username, email: user.email, createdAt: user.created_at },
+        data: {
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            university: user.university,
+            createdAt: user.created_at,
+        },
     });
 };
 

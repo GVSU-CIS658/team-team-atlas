@@ -115,9 +115,12 @@ Create a new user account. **No auth required.**
 {
   "username": "jdoe",
   "email": "jdoe@university.edu",
-  "password": "securepassword123"
+  "password": "securepassword123",
+  "university": "State University"
 }
 ```
+
+`university` is optional.
 
 **Response `201`**
 
@@ -128,6 +131,7 @@ Create a new user account. **No auth required.**
     "id": "664f1b...",
     "username": "jdoe",
     "email": "jdoe@university.edu",
+    "university": "State University",
     "createdAt": "2026-02-26T12:00:00Z"
   }
 }
@@ -221,6 +225,7 @@ Get the current user's profile. **Auth required.**
     "id": "664f1b...",
     "username": "jdoe",
     "email": "jdoe@university.edu",
+    "university": "State University",
     "createdAt": "2026-02-26T12:00:00Z"
   }
 }
@@ -230,35 +235,26 @@ Get the current user's profile. **Auth required.**
 
 ### PATCH `/users/me`
 
-Update the current user's profile. **Auth required.** All fields optional.
+Update the current user's profile. **Auth required.** All fields optional. Email is read-only.
 
 **Request**
 
 ```json
 {
-  "username": "johndoe"
+  "username": "johndoe",
+  "university": "State University"
 }
 ```
 
-**Response `200`**
+`university` may be `null` to clear it.
 
-```json
-{
-  "success": true,
-  "data": {
-    "id": "664f1b...",
-    "username": "johndoe",
-    "email": "jdoe@university.edu",
-    "createdAt": "2026-02-26T12:00:00Z"
-  }
-}
-```
+**Response `200`** — same shape as `GET /users/me`.
 
 ---
 
 ### GET `/users/me/statistics`
 
-Aggregate dashboard statistics. **Auth required.**
+Lifetime fitness statistics for the current user. **Auth required.** Used by the Profile page. `activeChallenges` is duplicated here (also on `/dashboard/stats`) so the Profile page only needs this single stats endpoint.
 
 **Response `200`**
 
@@ -266,11 +262,44 @@ Aggregate dashboard statistics. **Auth required.**
 {
   "success": true,
   "data": {
-    "totalGoals": 5,
+    "totalWorkouts": 12,
+    "totalCaloriesBurned": 12450,
     "completedGoals": 2,
-    "totalActivitiesLogged": 47,
     "activeChallenges": 3,
-    "currentStreak": 12
+    "activityCountByUnit": {
+      "steps": 7,
+      "calories": 0,
+      "distance": 0
+    }
+  }
+}
+```
+
+- `totalWorkouts` is the count of all activity log entries for the user (every logged activity is a "workout").
+- `totalCaloriesBurned` is the lifetime sum of `value` across activity logs whose goal has `unit = "calories"`.
+- `completedGoals` is the count of goals with `status = "completed"`.
+- `activeChallenges` is the user's number of joined challenges.
+- `activityCountByUnit` is the **count** of activity logs grouped by the unit of their parent goal — drives the Profile page's Activity Breakdown chart. The `workouts` unit is intentionally excluded (already covered by `totalWorkouts`). Frontend filters out zero entries.
+
+---
+
+### GET `/dashboard/stats`
+
+Aggregate "today / this week" stats used by the Dashboard. **Auth required.** All values are scoped to the current user. Lifetime totals live on `GET /users/me/statistics` instead.
+
+**Response `200`**
+
+```json
+{
+  "success": true,
+  "data": {
+    "todaySteps": 8230,
+    "todayCalories": 420,
+    "weeklyWorkoutsCurrent": 3,
+    "weeklyWorkoutsTarget": 5,
+    "activeGoals": 4,
+    "totalGoals": 5,
+    "activeChallenges": 3
   }
 }
 ```

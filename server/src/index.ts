@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import authRouter from "./routes/auth";
 import dashboardRoutes from "./routes/dashboard";
 import goalsRouter from "./routes/goals";
+import usersRoutes from './routes/users';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -28,6 +29,7 @@ app.get("/api/v1/health", (_req, res) => {
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/dashboard", dashboardRoutes);
 app.use("/api/v1/goals", goalsRouter);
+app.use('/api/v1/users', usersRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

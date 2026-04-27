@@ -1,11 +1,5 @@
-import {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  type ReactNode,
-} from "react";
-import { api } from "../../../lib/api";
+import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
+import { api } from '../../../lib/api';
 
 interface User {
   id: string;
@@ -27,6 +21,7 @@ interface AuthContextValue {
     avatarDataUrl?: string | null,
   ) => Promise<void>;
   logout: () => Promise<void>;
+    updateUser: (updates: Partial<Pick<User, 'username' | 'email' | 'avatarUrl'>>) => void;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -95,20 +90,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  return (
-    <AuthContext.Provider
-      value={{
-        user,
-        isAuthenticated: !!user,
-        isLoading,
-        login,
-        register,
-        logout,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+    const updateUser: AuthContextValue['updateUser'] = (updates) => {
+        setUser((prev) => (prev ? { ...prev, ...updates } : prev));
+    };
+
+    return (
+        <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, login, register, logout, updateUser }}>
+            {children}
+        </AuthContext.Provider>
+    );
 }
 
 export function useAuth() {

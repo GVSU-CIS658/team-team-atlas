@@ -1,0 +1,51 @@
+@use '../../../styles/variables' as *;
+
+.page {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-3;
+}
+
+.heading {
+    font-size: $font-2xl;
+    font-weight: $weight-bold;
+    color: $text-primary;
+    margin: 0;
+}
+
+.subheading {
+    font-size: $font-base;
+    color: $text-secondary;
+    margin: $spacing-1 0 0;
+}
+
+.layout {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: $spacing-3;
+    align-items: start;
+
+    @media (max-width: 1024px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.infoCol {
+    min-width: 0;
+}
+
+.contentCol {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-3;
+    min-width: 0;
+}
+
+.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    font-size: $font-base;
+    color: $text-secondary;
+}

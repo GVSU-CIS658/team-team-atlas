@@ -1,0 +1,168 @@
+@use '../../../styles/variables' as *;
+
+.card {
+    background: #fff;
+    border: 1px solid $border-color;
+    border-radius: $radius-lg;
+    padding: $spacing-3;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-3;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+}
+
+.headerText {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.name {
+    font-size: $font-md;
+    font-weight: $weight-semibold;
+    color: $text-primary;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.subtitle {
+    font-size: $font-sm;
+    color: $text-secondary;
+    margin: 0;
+}
+
+.fields {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-2;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.label {
+    font-size: $font-xs;
+    font-weight: $weight-medium;
+    color: $text-secondary;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.value {
+    font-size: $font-base;
+    color: $text-primary;
+    word-break: break-word;
+}
+
+.input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid $border-color;
+    border-radius: $radius-md;
+    font-size: $font-base;
+    color: $text-primary;
+    background: #fff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &:focus {
+        outline: none;
+        border-color: $color-primary;
+        box-shadow: 0 0 0 3px rgba(21, 93, 252, 0.15);
+    }
+
+    &:disabled {
+        background: $body-bg;
+        cursor: not-allowed;
+    }
+}
+
+.error {
+    font-size: $font-sm;
+    color: $error-color;
+    margin: 0;
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-1;
+    margin-top: $spacing-1;
+}
+
+.editBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: #fff;
+    color: $text-primary;
+    border: 1px solid $border-color;
+    border-radius: $radius-md;
+    font-size: $font-sm;
+    font-weight: $weight-medium;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease;
+
+    &:hover,
+    &:focus {
+        border-color: $text-primary;
+        outline: none;
+    }
+}
+
+.primaryBtn {
+    flex: 1 1 auto;
+    padding: 10px 16px;
+    background: linear-gradient(90deg, $color-primary 0%, $challenge-purple 100%);
+    color: #fff;
+    border: none;
+    border-radius: $radius-md;
+    font-size: $font-sm;
+    font-weight: $weight-semibold;
+    cursor: pointer;
+    transition: background 0.2s ease, opacity 0.2s ease;
+
+    &:hover,
+    &:focus {
+        background: $color-primary;
+        outline: none;
+    }
+
+    &:disabled {
+        opacity: 0.65;
+        cursor: not-allowed;
+    }
+}
+
+.secondaryBtn {
+    padding: 10px 16px;
+    background: #fff;
+    color: $text-primary;
+    border: 1px solid $border-color;
+    border-radius: $radius-md;
+    font-size: $font-sm;
+    font-weight: $weight-medium;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+
+    &:hover,
+    &:focus {
+        border-color: $text-primary;
+        outline: none;
+    }
+
+    &:disabled {
+        opacity: 0.65;
+        cursor: not-allowed;
+    }
+}
