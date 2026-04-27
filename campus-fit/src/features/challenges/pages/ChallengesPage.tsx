@@ -6,6 +6,7 @@ import {
   TrendingUp,
   CalendarDays,
   TrendingUp as LeaderboardIcon,
+  Gift,
   Loader2,
   AlertCircle,
 } from "lucide-react";
@@ -26,6 +27,9 @@ interface ApiChallenge {
   isJoined: boolean;
   userProgress: number;
   rank: number | null;
+  challengeType?: "target" | "competitive";
+  targetValue?: number | null;
+  prize?: string | null;
 }
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
@@ -40,6 +44,15 @@ function MyChallengeCard({
 }) {
   const navigate = useNavigate();
 
+  const isTarget =
+    challenge.challengeType === "target" && challenge.targetValue != null;
+  const pct = isTarget
+    ? Math.min(
+        100,
+        Math.round((challenge.userProgress / challenge.targetValue!) * 100),
+      )
+    : null;
+
   return (
     <div className={styles.card}>
       <div className={styles.cardHeader}>
@@ -47,11 +60,17 @@ function MyChallengeCard({
           <Trophy size={20} className={styles.trophyIcon} />
           <h3>{challenge.title}</h3>
         </div>
+        {challenge.prize && (
+          <span className={styles.prizeBadge}>
+            <Gift size={12} />
+            Prize
+          </span>
+        )}
       </div>
 
       <p className={styles.cardDesc}>{challenge.description}</p>
 
-      <div className={styles.metaRow}>
+      <div className={styles.metaBox}>
         <div className={styles.metaItem}>
           <Users size={16} className={styles.metaIcon} />
           <div>
@@ -72,6 +91,13 @@ function MyChallengeCard({
         </div>
       </div>
 
+      {challenge.prize && (
+        <div className={styles.prizeBanner}>
+          <Gift size={16} />
+          <span>{challenge.prize}</span>
+        </div>
+      )}
+
       <div className={styles.progressSection}>
         <div className={styles.progressHeader}>
           <span>Your Progress</span>
@@ -79,10 +105,19 @@ function MyChallengeCard({
             <span className={styles.rankLabel}>Rank #{challenge.rank}</span>
           )}
         </div>
+        <div className={styles.progressBar}>
+          <div
+            className={styles.progressFill}
+            style={{ width: `${pct ?? 0}%` }}
+          />
+        </div>
         <div className={styles.progressFooter}>
           <span>
-            {challenge.userProgress.toLocaleString()} {challenge.unit}
+            {challenge.userProgress.toLocaleString()}
+            {isTarget && ` / ${challenge.targetValue!.toLocaleString()}`}{" "}
+            {challenge.unit}
           </span>
+          {pct != null && <span className={styles.pct}>{pct}%</span>}
         </div>
       </div>
 

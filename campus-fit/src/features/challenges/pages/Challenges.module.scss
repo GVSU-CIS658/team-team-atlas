@@ -179,15 +179,18 @@
 
 .cardDesc {
     font-size: $font-sm;
-    color: #4a90c4;
+    color: $text-secondary;
     margin: 0;
     line-height: 1.5;
 }
 
-/* ── Meta row (participants + days left) ───────────── */
-.metaRow {
+/* ── Meta box (participants + days left) ───────────── */
+.metaBox {
     display: flex;
     gap: $spacing-5;
+    background: #f3f4f6;
+    border-radius: $radius-md;
+    padding: 12px $spacing-3;
 }
 
 .metaItem {
@@ -203,7 +206,7 @@
 .metaLabel {
     display: block;
     font-size: $font-xs;
-    color: #4a90c4;
+    color: $text-secondary;
 }
 
 .metaValue {
@@ -219,11 +222,12 @@
     align-items: center;
     gap: 8px;
     background: #fefce8;
+    border: 1px solid #fde68a;
     border-radius: $radius-md;
     padding: 10px 14px;
     font-size: $font-sm;
-    font-weight: $weight-medium;
-    color: #d97706;
+    font-weight: $weight-semibold;
+    color: #a16207;
 }
 
 /* ── Progress ──────────────────────────────────────── */
@@ -248,14 +252,14 @@
 .progressBar {
     height: 8px;
     background: #e5e7eb;
-    border-radius: $radius-full;
+    border-radius: $radius-sm;
     overflow: hidden;
 }
 
 .progressFill {
     height: 100%;
     background: $text-primary;
-    border-radius: $radius-full;
+    border-radius: $radius-sm;
     transition: width 0.3s ease;
 }
 
