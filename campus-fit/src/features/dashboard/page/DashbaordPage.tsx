@@ -4,10 +4,11 @@ import WeeklyStepsChart from '../components/WeeklyStepsChart';
 import GoalsSummary from '../components/GoalsSummary';
 import RecentActivityList from '../components/RecentActivityList';
 import ActiveChallengesList from '../components/ActiveChallengesList';
+import DashboardError from '../../../components/ui/DashboardError/DashboardError';
 import styles from './Dasboard.module.scss';
 
 export default function DashboardPage() {
-  const { stats, weeklySteps, recentActivity, activeChallenges, loading, error } = useDashboard();
+  const { stats, weeklySteps, recentActivity, activeChallenges, loading, error, refetch } = useDashboard();
 
   if (loading) {
     return (
@@ -20,7 +21,7 @@ export default function DashboardPage() {
   if (error) {
     return (
       <div className={styles.page}>
-        <div className={styles.error}>{error}</div>
+        <DashboardError error={error} onRetry={refetch} />
       </div>
     );
   }

@@ -1,8 +1,9 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { supabase } from '../config/db';
+import { AuthenticatedRequest } from '../types';
 
-export const getDashboardStats = async (req: Request, res: Response) => {
-  const userId = (req as any).userId;
+export const getDashboardStats = async (req: AuthenticatedRequest, res: Response) => {
+  const userId = req.user!.id;
 
   const today = new Date().toISOString().split('T')[0];
 
@@ -75,8 +76,8 @@ export const getDashboardStats = async (req: Request, res: Response) => {
   });
 };
 
-export const getWeeklySteps = async (req: Request, res: Response) => {
-  const userId = (req as any).userId;
+export const getWeeklySteps = async (req: AuthenticatedRequest, res: Response) => {
+  const userId = req.user!.id;
   const startOfWeek = getStartOfWeek();
   const endOfWeek = getEndOfWeek();
 
@@ -120,8 +121,8 @@ export const getWeeklySteps = async (req: Request, res: Response) => {
   res.json({ success: true, data: weeklyData });
 };
 
-export const getRecentActivity = async (req: Request, res: Response) => {
-  const userId = (req as any).userId;
+export const getRecentActivity = async (req: AuthenticatedRequest, res: Response) => {
+  const userId = req.user!.id;
 
   const { data: activities } = await supabase
     .from('activity_logs')
@@ -155,8 +156,8 @@ export const getRecentActivity = async (req: Request, res: Response) => {
   res.json({ success: true, data: formatted });
 };
 
-export const getActiveChallenges = async (req: Request, res: Response) => {
-  const userId = (req as any).userId;
+export const getActiveChallenges = async (req: AuthenticatedRequest, res: Response) => {
+  const userId = req.user!.id;
   const now = new Date().toISOString();
 
   const { data: participations, error: participationsError } = await supabase
@@ -170,7 +171,10 @@ export const getActiveChallenges = async (req: Request, res: Response) => {
 
   if (participationsError) {
     console.error('[getActiveChallenges] Supabase error:', participationsError);
-    res.status(500).json({ success: false, error: participationsError.message });
+    res.status(500).json({
+      success: false,
+      error: { code: 'INTERNAL_ERROR', message: 'Failed to load active challenges' },
+    });
     return;
   }
 

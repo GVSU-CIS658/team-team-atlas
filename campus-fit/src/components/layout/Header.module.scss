@@ -112,7 +112,7 @@
         border: none;
         cursor: pointer;
         font-size: $font-sm;
-        color: #dc2626;
+        color: $error-color;
         text-align: left;
 
         &:hover {

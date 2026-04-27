@@ -6,13 +6,6 @@ interface RecentActivityListProps {
   activities: RecentActivity[];
 }
 
-const ACTIVITY_ICONS: Record<string, string> = {
-  steps: '🚶',
-  miles: '🏃',
-  workouts: '💪',
-  calories: '🔥',
-};
-
 export default function RecentActivityList({ activities }: RecentActivityListProps) {
   return (
     <section className={styles.container}>

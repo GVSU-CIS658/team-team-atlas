@@ -1,0 +1,64 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    gap: $spacing-3;
+    text-align: center;
+    padding: $spacing-4 $spacing-3;
+}
+
+.icon {
+    width: 128px;
+    height: 128px;
+    border-radius: $radius-full;
+    display: inline-grid;
+    place-items: center;
+    background-color: lighten($error-color, 40%);
+
+    svg {
+        width: 64px;
+        height: 64px;
+    }
+}
+
+.title {
+    font-size: $font-xl;
+    font-weight: $weight-bold;
+    color: $text-primary;
+    margin: 0;
+}
+
+.message {
+    font-size: $font-base;
+    color: $text-secondary;
+    margin: 0;
+    max-width: 420px;
+}
+
+.button {
+    margin-top: $spacing-1;
+    padding: 12px 20px;
+    background: linear-gradient(90deg, $color-primary 0%, #9810fa 100%);
+    background-size: 200% 100%;
+    background-position: left center;
+    color: white;
+    border: none;
+    border-radius: $radius-md;
+    font-size: $font-base;
+    font-weight: $weight-semibold;
+    cursor: pointer;
+    transition: background-position 0.25s ease-out;
+
+    &:hover,
+    &:focus {
+        background-position: right center;
+        outline: none;
+    }
+
+    &:disabled {
+        opacity: 0.65;
+        cursor: not-allowed;
+    }
+}

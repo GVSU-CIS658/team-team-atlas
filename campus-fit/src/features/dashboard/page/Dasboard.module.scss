@@ -49,16 +49,11 @@
   min-width: 0;
 }
 
-.loading,
-.error {
+.loading {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 300px;
   font-size: $font-base;
   color: $text-secondary;
-}
-
-.error {
-  color: #dc2626;
 }

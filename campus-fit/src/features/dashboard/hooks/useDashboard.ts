@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { api } from '../../../lib/api';
 import type {
   DashboardStats,
@@ -13,7 +13,8 @@ interface DashboardData {
   recentActivity: RecentActivity[];
   activeChallenges: ActiveChallenge[];
   loading: boolean;
-  error: string | null;
+  error: unknown;
+  refetch: () => Promise<void>;
 }
 
 export function useDashboard(): DashboardData {
@@ -22,30 +23,40 @@ export function useDashboard(): DashboardData {
   const [recentActivity, setRecentActivity] = useState<RecentActivity[]>([]);
   const [activeChallenges, setActiveChallenges] = useState<ActiveChallenge[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<unknown>(null);
 
-  useEffect(() => {
-    async function fetchDashboard() {
-      try {
-        const [statsData, stepsData, activityData, challengesData] = await Promise.all([
-          api.get<DashboardStats>('/dashboard/stats'),
-          api.get<WeeklyStepDay[]>('/dashboard/weekly-steps'),
-          api.get<RecentActivity[]>('/dashboard/recent-activity'),
-          api.get<ActiveChallenge[]>('/dashboard/active-challenges'),
-        ]);
-        setStats(statsData);
-        setWeeklySteps(stepsData);
-        setRecentActivity(activityData);
-        setActiveChallenges(challengesData);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load dashboard');
-      } finally {
-        setLoading(false);
-      }
+  const fetchDashboard = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const [statsData, stepsData, activityData, challengesData] = await Promise.all([
+        api.get<DashboardStats>('/dashboard/stats'),
+        api.get<WeeklyStepDay[]>('/dashboard/weekly-steps'),
+        api.get<RecentActivity[]>('/dashboard/recent-activity'),
+        api.get<ActiveChallenge[]>('/dashboard/active-challenges'),
+      ]);
+      setStats(statsData);
+      setWeeklySteps(stepsData);
+      setRecentActivity(activityData);
+      setActiveChallenges(challengesData);
+    } catch (err) {
+      setError(err);
+    } finally {
+      setLoading(false);
     }
-
-    fetchDashboard();
   }, []);
 
-  return { stats, weeklySteps, recentActivity, activeChallenges, loading, error };
+  useEffect(() => {
+    fetchDashboard();
+  }, [fetchDashboard]);
+
+  return {
+    stats,
+    weeklySteps,
+    recentActivity,
+    activeChallenges,
+    loading,
+    error,
+    refetch: fetchDashboard,
+  };
 }
