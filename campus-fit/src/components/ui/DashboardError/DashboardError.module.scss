@@ -1,3 +1,4 @@
+@use "sass:color";
 .container {
     display: flex;
     flex-direction: column;
@@ -15,7 +16,7 @@
     border-radius: $radius-full;
     display: inline-grid;
     place-items: center;
-    background-color: lighten($error-color, 40%);
+    background-color: color.adjust($error-color, $lightness: 40%);
 
     svg {
         width: 64px;
