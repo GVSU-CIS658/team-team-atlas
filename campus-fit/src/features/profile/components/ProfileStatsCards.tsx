@@ -1,7 +1,3 @@
-import { Trophy } from 'lucide-react';
-import WorkoutsIcon from '../../../assets/workouts-icon';
-import CaloriesBurnedIcon from '../../../assets/calories-burned-icom';
-import CalendarIcon from '../../../assets/calendar-icon';
 import type { UserStatistics } from '../../../types';
 import styles from './ProfileStatsCards.module.scss';
 
