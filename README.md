@@ -24,7 +24,7 @@ Best of luck! 🚀
 ## **View the project live**
 https://atlas-campusfit.netlify.app/
 
-## **Project Setup**
+## **Setup the Project Locally**
 1. Clone the repo
 2. Install dependencies:
 ```
@@ -53,12 +53,22 @@ cd campus-fit
 npm run dev
 ```
 6. Open `http://localhost:5173`. API calls are already setup with a proxy
+
+## **Frontend Deployment to Production**
+1. Navigate to the campus-fit folder and build the project
+```
+cd campus-fit && npm run build
+```
+
+2. Deploy the `/dist` folder to your hostting site to hold the frontend
+
+
 ## **Backend Deployment to Production**
 1. (For the first time only) Install Railway CLI:
 ```
 npm install -g @railway/cli
 ```
-2. Make sure your terminal is in the `/server` folder and run:
+2. Navigate back to the root of the project (`cd ..`) and run:
 ```
-railway up
+cd server && railway up
 ```
