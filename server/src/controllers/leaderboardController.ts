@@ -27,10 +27,10 @@ export const getChallengeLeaderboard = async (
     return;
   }
 
-  // 2. All participants + usernames (via foreign key join)
+  // 2. All participants with their cached total_progress + usernames
   const { data: participants, error: partErr } = await supabase
     .from("challenge_participants")
-    .select("user_id, users(username)")
+    .select("user_id, total_progress, users(username)")
     .eq("challenge_id", challengeId);
 
   if (partErr) {
@@ -42,39 +42,17 @@ export const getChallengeLeaderboard = async (
     return;
   }
 
-  const userIds = participants?.map((p) => p.user_id) ?? [];
-
-  // 3. All progress entries for this challenge
-  const { data: progress } = await supabase
-    .from("challenge_progress")
-    .select("user_id, value, date")
-    .eq("challenge_id", challengeId)
-    .in("user_id", userIds.length > 0 ? userIds : ["__none__"]);
-
-  // 4. Aggregate totals per user
-  const aggMap: Record<string, { total: number; lastDate: string | null }> = {};
-  userIds.forEach((id) => {
-    aggMap[id] = { total: 0, lastDate: null };
-  });
-  progress?.forEach((p) => {
-    aggMap[p.user_id].total += Number(p.value);
-    if (!aggMap[p.user_id].lastDate || p.date > aggMap[p.user_id].lastDate!) {
-      aggMap[p.user_id].lastDate = p.date;
-    }
-  });
-
-  // 5. Sort descending by total → assign ranks
+  // 3. Sort descending by total_progress → assign ranks
   const ranked = (participants ?? [])
     .map((p) => ({
       userId: p.user_id,
       username: (p.users as any)?.username ?? "Unknown",
-      totalProgress: aggMap[p.user_id]?.total ?? 0,
-      lastActivityDate: aggMap[p.user_id]?.lastDate ?? null,
+      totalProgress: Number(p.total_progress ?? 0),
     }))
     .sort((a, b) => b.totalProgress - a.totalProgress)
     .map((entry, i) => ({ ...entry, rank: i + 1 }));
 
-  // 6. Current user's position
+  // 4. Current user's position
   const myEntry = ranked.find((e) => e.userId === userId);
   const myRank = myEntry?.rank ?? null;
   const myProgress = myEntry?.totalProgress ?? 0;
